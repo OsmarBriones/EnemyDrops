@@ -1,3 +1,4 @@
+using EnemyDrops.Configuration;
 using HarmonyLib;
 using Photon.Pun;
 using System;
@@ -10,23 +11,6 @@ namespace EnemyDrops.Patches
 	{
 		// Tracks which EnemyHealth instances we subscribed to (auto-releases when instance is GC'd)
 		private static readonly ConditionalWeakTable<EnemyHealth, object> Subscribed = new();
-
-		// ItemDictionary keys for the upgrade pickups
-		private static readonly string[] UpgradeItemKeys =
-		{
-			"Item Upgrade Death Head Battery",
-			"Item Upgrade Map Player Count",
-			"Item Upgrade Player Crouch Rest",
-			"Item Upgrade Player Energy",
-			"Item Upgrade Player Extra Jump",
-			"Item Upgrade Player Grab Range",
-			"Item Upgrade Player Grab Strength",
-			"Item Upgrade Player Health",
-			"Item Upgrade Player Sprint Speed",
-			"Item Upgrade Player Tumble Climb",
-			"Item Upgrade Player Tumble Launch",
-			"Item Upgrade Player Tumble Wings",
-		};
 
 		private static readonly System.Random Rng = new System.Random();
 
@@ -47,6 +31,12 @@ namespace EnemyDrops.Patches
 		{
 			try
 			{
+				// Avoid duplicate spawns in multiplayer
+				bool canSpawn = true;
+				try { canSpawn = SemiFunc.IsMasterClientOrSingleplayer(); } catch { /* ignore if not available */ }
+				if (!canSpawn) return;
+
+				// Avoid spawning if the enemy component is missing (it means that this is not a real enemy)
 				var enemy = health.GetComponent<Enemy>();
 				if (enemy == null)
 				{
@@ -54,12 +44,7 @@ namespace EnemyDrops.Patches
 					return;
 				}
 
-				// Avoid duplicate spawns in multiplayer
-				bool canSpawn = true;
-				try { canSpawn = SemiFunc.IsMasterClientOrSingleplayer(); } catch { /* ignore if not available */ }
-				if (!canSpawn) return;
-
-				SpawnUpgradeDrop(enemy);
+				SpawnItemDrop(enemy);
 			}
 			catch (Exception ex)
 			{
@@ -67,23 +52,23 @@ namespace EnemyDrops.Patches
 			}
 		}
 
-		private static void SpawnUpgradeDrop(Enemy enemy)
+		private static void SpawnItemDrop(Enemy enemy)
 		{
 			Transform t = enemy.CustomValuableSpawnTransform
 						   ? enemy.CustomValuableSpawnTransform
 						   : (enemy.CenterTransform ? enemy.CenterTransform : enemy.transform);
 
-			Vector3 pos = t.position + Vector3.up * 0.15f;
+			Vector3 pos = t.position + Vector3.up;
 			Quaternion rot = t.rotation;
 
-			var item = TryGetRandomUpgradeItemFromDictionary();
+			Item? item = TryGetRandomItemFromDictionary();
 			if (item == null)
 			{
-				EnemyDrops.Logger.LogWarning("Failed to resolve any upgrade Item from StatsManager.itemDictionary.");
+				EnemyDrops.Logger.LogWarning("Failed to resolve any Item from StatsManager.itemDictionary.");
 				return;
 			}
 
-			GameObject spawned = null;
+			GameObject? spawned = null;
 			try
 			{
 				// Use the same pattern the game uses for spawning Items
@@ -98,7 +83,7 @@ namespace EnemyDrops.Patches
 			}
 			catch (Exception ex)
 			{
-				EnemyDrops.Logger.LogError($"Failed to spawn upgrade '{item.name}' at {pos}: {ex.Message}");
+				EnemyDrops.Logger.LogError($"Failed to spawn Item '{item.name}' at {pos}: {ex.Message}");
 				return;
 			}
 
@@ -109,10 +94,10 @@ namespace EnemyDrops.Patches
 				rb.AddForce(UnityEngine.Random.insideUnitSphere * 1.25f + Vector3.up * 2f, ForceMode.Impulse);
 			}
 
-			EnemyDrops.Logger.LogInfo($"Spawned upgrade '{(spawned ? spawned.name : item.name)}' at {pos}");
+			EnemyDrops.Logger.LogInfo($"Spawned Item '{(spawned ? spawned.name : item.name)}' at {pos}");
 		}
 
-		private static Item TryGetRandomUpgradeItemFromDictionary()
+		private static Item? TryGetRandomItemFromDictionary()
 		{
 			try
 			{
@@ -121,14 +106,15 @@ namespace EnemyDrops.Patches
 					return null;
 
 				// Start from a random offset to vary selection
-				int start = Rng.Next(UpgradeItemKeys.Length);
-				for (int i = 0; i < UpgradeItemKeys.Length; i++)
+				string? key = UpgradeItemKeysProvider.GetRandomKey();
+				if (key == null)
 				{
-					string key = UpgradeItemKeys[(start + i) % UpgradeItemKeys.Length];
-					if (dict.TryGetValue(key, out var item) && item != null && item.prefab != null)
-					{
-						return item;
-					}
+					EnemyDrops.Logger.LogWarning("UpgradeItemKeysProvider returned null key.");
+					return null;
+				}
+				if (dict.TryGetValue(key, out var item) && item != null && item.prefab != null)
+				{
+					return item;
 				}
 			}
 			catch (Exception ex)
