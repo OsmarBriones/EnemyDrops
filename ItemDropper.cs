@@ -12,6 +12,12 @@ namespace EnemyDrops
 	{
 		private static readonly System.Random s_rng = new System.Random();
 
+		// Centralized excluded enemy names (exact strings).
+		private static readonly string[] s_excludedEnemyNames = {
+			"Gnome",
+			"Banger"
+		};
+
 		// Cached reflection for enemy name lookup when EnemyParent is not publicly accessible
 		private static FieldInfo? s_enemyParentField;
 		private static FieldInfo? s_enemyNameField;
@@ -74,9 +80,12 @@ namespace EnemyDrops
 		private static bool IsExcludedEnemy(string enemyName)
 		{
 			if (string.IsNullOrEmpty(enemyName)) return false;
-			return string.Equals(enemyName, "Shadow Child", StringComparison.OrdinalIgnoreCase)
-				|| string.Equals(enemyName, "Gnome", StringComparison.OrdinalIgnoreCase)
-				|| string.Equals(enemyName, "Banger", StringComparison.OrdinalIgnoreCase);
+			for (int i = 0; i < s_excludedEnemyNames.Length; i++)
+			{
+				if (string.Equals(enemyName, s_excludedEnemyNames[i], StringComparison.OrdinalIgnoreCase))
+					return true;
+			}
+			return false;
 		}
 
 		private static string GetEnemyNameSafe(Enemy enemy)

@@ -1,4 +1,8 @@
+using BepInEx.Configuration;
+using BepInEx.Logging;
+using EnemyDrops.Configuration;
 using EnemyDrops.Providers;
+using System;
 using System.Collections.Generic;
 
 namespace EnemyDrops
@@ -16,7 +20,7 @@ namespace EnemyDrops
 		}
 	}
 
-	// Default, in-code drop tables. Replace with config loading later.
+	// Default, in-code drop tables. Users can override via config.
 	public static class ItemDropTables
 	{
 		private static readonly IReadOnlyList<WeightedKey> s_commonItems = new[]
@@ -95,20 +99,93 @@ namespace EnemyDrops
 			new WeightedKey(ItemKeys.UpgradeMapPlayerCount,      0f),
 		};
 
+		// Nullable: assigned in InitializeConfig()
+		private static DropTableConfigMatrix? s_configMatrix;
+
+		// Nullable: assigned in EnsureFullDefaults()
+		private static IReadOnlyList<WeightedKey>? s_fullDefaults1;
+		private static IReadOnlyList<WeightedKey>? s_fullDefaults2;
+		private static IReadOnlyList<WeightedKey>? s_fullDefaults3;
+		private static bool s_fullDefaultsBuilt;
+
+		/// Call once from your plugin (e.g., in Awake) to create per-item-per-difficulty config entries and load them.
+		public static void InitializeConfig(ConfigFile config, string? header = null, bool saveImmediately = false)
+		{
+			// Build config entries with defaults (missing items default to 0)
+			s_configMatrix = new DropTableConfigMatrix(config, s_commonItems, s_mediumItems, s_rareItems);
+		}
+
 		public static IReadOnlyList<WeightedKey> GetWeightsFor(EnemyParent.Difficulty difficulty)
 		{
-			switch (difficulty)
+			// Use configured matrix if available
+			if (s_configMatrix is not null)
+				return s_configMatrix.Get(difficulty);
+
+			// Otherwise, return full defaults (all items present, missing => weight 0)
+			EnsureFullDefaults();
+
+			var d1 = s_fullDefaults1!;
+			var d2 = s_fullDefaults2!;
+			var d3 = s_fullDefaults3!;
+
+			return difficulty switch
 			{
-				case EnemyParent.Difficulty.Difficulty1:
-					return s_commonItems;
+				EnemyParent.Difficulty.Difficulty1 => d1,
+				EnemyParent.Difficulty.Difficulty2 => d2,
+				_ => d3,
+			};
+		}
 
-				case EnemyParent.Difficulty.Difficulty2:
-					return s_mediumItems;
+		private static void EnsureFullDefaults()
+		{
+			if (s_fullDefaultsBuilt) return;
+			s_fullDefaults1 = BuildFullFromDefaults(s_commonItems);
+			s_fullDefaults2 = BuildFullFromDefaults(s_mediumItems);
+			s_fullDefaults3 = BuildFullFromDefaults(s_rareItems);
+			s_fullDefaultsBuilt = true;
+		}
 
-				case EnemyParent.Difficulty.Difficulty3:
-				default:
-					return s_rareItems;
+		private static IReadOnlyList<WeightedKey> BuildFullFromDefaults(IReadOnlyList<WeightedKey> defaultsForLevel)
+		{
+			var map = new System.Collections.Generic.Dictionary<string, float>(StringComparer.OrdinalIgnoreCase);
+			for (int i = 0; i < defaultsForLevel.Count; i++)
+				map[defaultsForLevel[i].Key] = defaultsForLevel[i].Weight;
+
+			var arr = new WeightedKey[Providers.ItemKeys.All.Length];
+			for (int i = 0; i < Providers.ItemKeys.All.Length; i++)
+			{
+				var key = Providers.ItemKeys.All[i];
+				float weight = map.TryGetValue(key, out var w) ? w : 0f;
+				arr[i] = new WeightedKey(key, weight);
 			}
+			return arr;
+		}
+
+		public static void LogWeights(ManualLogSource logger)
+		{
+			if (logger is null) throw new ArgumentNullException(nameof(logger));
+
+			void LogLevel(string name, EnemyParent.Difficulty diff)
+			{
+				var list = GetWeightsFor(diff);
+				int count = 0;
+				for (int i = 0; i < list.Count; i++)
+				{
+					var w = list[i];
+					if (w.Weight > 0f)
+					{
+						if (count == 0) logger.LogInfo($"DropTable {name}:");
+						logger.LogInfo($"  {w.Key} = {w.Weight}");
+						count++;
+					}
+				}
+				if (count == 0)
+					logger.LogInfo($"DropTable {name}: (no non-zero entries)");
+			}
+
+			LogLevel("Difficulty1", EnemyParent.Difficulty.Difficulty1);
+			LogLevel("Difficulty2", EnemyParent.Difficulty.Difficulty2);
+			LogLevel("Difficulty3", EnemyParent.Difficulty.Difficulty3);
 		}
 	}
 }

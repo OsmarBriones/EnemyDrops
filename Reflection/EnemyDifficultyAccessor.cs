@@ -68,7 +68,7 @@ namespace EnemyDrops.Reflection
 				if (diffEnum == null) return 1;
 				// Enum underlying int (Difficulty1=0, Difficulty2=1, Difficulty3=2)
 				int raw = (int)Convert.ChangeType(diffEnum, typeof(int));
-				return raw + 1; // map to 1..3
+				return raw + 1; // map to 1..3 
 			}
 			catch
 			{

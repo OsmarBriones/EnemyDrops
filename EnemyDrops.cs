@@ -21,6 +21,10 @@ namespace EnemyDrops
 			this.gameObject.transform.parent = null;
 			this.gameObject.hideFlags = HideFlags.HideAndDontSave;
 
+			ItemDropTables.InitializeConfig(this.Config);
+			this.Config.Save();
+			ItemDropTables.LogWeights(Logger);
+
 			Patch();
 
 			Logger.LogInfo($"{Info.Metadata.GUID} v{Info.Metadata.Version} has loaded!");
