@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using EnemyDrops.Configuration;
 using HarmonyLib;
 using UnityEngine;
 
@@ -21,9 +22,8 @@ namespace EnemyDrops
 			this.gameObject.transform.parent = null;
 			this.gameObject.hideFlags = HideFlags.HideAndDontSave;
 
-			ItemDropTables.InitializeConfig(this.Config);
-			this.Config.Save();
-			ItemDropTables.LogWeights(Logger);
+			// Centralized configuration initialization
+			ConfigurationController.Initialize(this.Config, Logger);
 
 			Patch();
 

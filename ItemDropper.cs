@@ -1,3 +1,4 @@
+using EnemyDrops.Configuration;
 using EnemyDrops.Providers;
 using EnemyDrops.Reflection;
 using System;
@@ -12,6 +13,9 @@ namespace EnemyDrops
 	{
 		private static readonly System.Random s_rng = new System.Random();
 
+		// Per-level drop counter
+		private static int s_dropsThisLevel;
+
 		// Centralized excluded enemy names (exact strings).
 		private static readonly string[] s_excludedEnemyNames = {
 			"Gnome",
@@ -22,16 +26,28 @@ namespace EnemyDrops
 		private static FieldInfo? s_enemyParentField;
 		private static FieldInfo? s_enemyNameField;
 
+		// Called by level-start patch
+		internal static void ResetForNewLevel()
+		{
+			s_dropsThisLevel = 0;
+			EnemyDrops.Logger.LogInfo($"ItemDropper: Drop counter reset for new level. MaxDropsPerLevel={ConfigurationController.MaxDropsPerLevel}");
+		}
+
 		public static bool TrySpawnForEnemy(Enemy enemy, out GameObject? spawned, float upwardOffset = 0.15f)
 		{
 			spawned = null;
 
-			bool canSpawn = true;
-			try { canSpawn = SemiFunc.IsMasterClientOrSingleplayer(); } catch { }
-			if (!canSpawn) return false;
+			if (!SemiFunc.IsMasterClientOrSingleplayer()) return false;
 			if (!enemy)
 			{
 				EnemyDrops.Logger.LogDebug("ItemDropper: Enemy null.");
+				return false;
+			}
+
+			// Enforce per-level drop cap
+			if (s_dropsThisLevel >= ConfigurationController.MaxDropsPerLevel)
+			{
+				EnemyDrops.Logger.LogInfo($"ItemDropper:  Max drops per level reached ({ConfigurationController.MaxDropsPerLevel}).");
 				return false;
 			}
 
@@ -73,7 +89,12 @@ namespace EnemyDrops
 				return false;
 			}
 
-			return ItemProvider.TrySpawnByKey(key, pos, rot, out spawned, 0f);
+			bool success = ItemProvider.TrySpawnByKey(key, pos, rot, out spawned, 0f);
+			if (success)
+			{
+				s_dropsThisLevel++;
+			}
+			return success;
 		}
 
 		// Centralized enemy exclusion rule(s)

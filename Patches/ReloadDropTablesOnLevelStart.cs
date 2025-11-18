@@ -1,4 +1,4 @@
-using BepInEx.Configuration;
+using EnemyDrops.Configuration;
 using HarmonyLib;
 
 namespace EnemyDrops.Patches
@@ -10,25 +10,16 @@ namespace EnemyDrops.Patches
 	{
 		static void Postfix()
 		{
+			if (!SemiFunc.RunIsLevel()) return;
 			try
 			{
-				// Re-read config from disk (in case user edited between levels)
-				ConfigFile cfg = EnemyDrops.Instance.Config;
-				cfg.Reload();
-
-				// Rebuild the runtime matrix from config entries
-				ItemDropTables.InitializeConfig(cfg);
-
-				// Persist any defaulted/missing entries (optional but helpful)
-				cfg.Save();
-
-				// Optional: log the active weights to verify reload occurred
-				ItemDropTables.LogWeights(EnemyDrops.Logger);
-				EnemyDrops.Logger.LogInfo("EnemyDrops: Drop tables reloaded from config at level start.");
+				// Refresh config, then reset the per-level drop counter
+				ConfigurationController.Reload(EnemyDrops.Logger);
+				ItemDropper.ResetForNewLevel();
 			}
 			catch (System.Exception ex)
 			{
-				EnemyDrops.Logger.LogError($"EnemyDrops: Failed to reload drop tables at level start: {ex}");
+				EnemyDrops.Logger.LogError($"EnemyDrops: Failed during level-start reload/reset: {ex}");
 			}
 		}
 	}

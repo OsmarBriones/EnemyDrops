@@ -32,24 +32,28 @@ namespace EnemyDrops
 			new WeightedKey(ItemKeys.MineExplosive,      2f),
 			new WeightedKey(ItemKeys.MineShockwave,      3f),
 
+			new WeightedKey(ItemKeys.DroneZeroGravity,   1f),
 			new WeightedKey(ItemKeys.DroneTorque,        1f),
+			new WeightedKey(ItemKeys.OrbZeroGravity,     1f),
 
 			new WeightedKey(ItemKeys.HealthPackSmall,    3f),
-			new WeightedKey(ItemKeys.DuckBucket,         3f),
-			new WeightedKey(ItemKeys.RubberDuck,         1f),
+			new WeightedKey(ItemKeys.DuckBucket,         1f),
 
+			new WeightedKey(ItemKeys.RubberDuck,         1f),
 			new WeightedKey(ItemKeys.MeleeFryingPan,         1f),
-			new WeightedKey(ItemKeys.MeleeInflatableHammer,  1f)
+			new WeightedKey(ItemKeys.MeleeInflatableHammer,  1f),
+			new WeightedKey(ItemKeys.MeleeSword,             1f),
+
+			new WeightedKey(ItemKeys.ValuableTracker,    1f),
+			new WeightedKey(ItemKeys.ExtractionTracker,  1f)
 		};
 
 		private static readonly IReadOnlyList<WeightedKey> s_mediumItems = new[]
 		{
 			new WeightedKey(ItemKeys.CartSmall,          1f),
 
-			new WeightedKey(ItemKeys.DroneZeroGravity,   3f),
-
-			new WeightedKey(ItemKeys.GrenadeDuctTaped,   1f),
-			new WeightedKey(ItemKeys.GrenadeHuman,       2f),
+			new WeightedKey(ItemKeys.GrenadeDuctTaped,   3f),
+			new WeightedKey(ItemKeys.GrenadeHuman,       3f),
 
 			new WeightedKey(ItemKeys.GunHandgun,         1f),
 			new WeightedKey(ItemKeys.GunTranq,           1f),
@@ -59,12 +63,11 @@ namespace EnemyDrops
 			new WeightedKey(ItemKeys.HealthPackMedium,   3f),
 			new WeightedKey(ItemKeys.MeleeBaseballBat,   2f),
 			new WeightedKey(ItemKeys.MeleeStunBaton,     2f),
-			new WeightedKey(ItemKeys.MeleeSword,             1f),
-
-			new WeightedKey(ItemKeys.OrbZeroGravity,     3f),
 
 			new WeightedKey(ItemKeys.UpgradePlayerTumbleClimb,  1f),
 			new WeightedKey(ItemKeys.UpgradeDeathHeadBattery,   1f),
+
+			new WeightedKey(ItemKeys.PhaseBridge,        1f),
 		};
 
 		private static readonly IReadOnlyList<WeightedKey> s_rareItems = new[]
@@ -76,26 +79,22 @@ namespace EnemyDrops
 			new WeightedKey(ItemKeys.DroneIndestructible,2f),
 			new WeightedKey(ItemKeys.DroneBattery,       1f),
 
-			new WeightedKey(ItemKeys.ExtractionTracker,  1f),
-			new WeightedKey(ItemKeys.ValuableTracker,    1f),
-
 			new WeightedKey(ItemKeys.GunShotgun,         1f),
 			new WeightedKey(ItemKeys.GunLaser,           1f),
 			new WeightedKey(ItemKeys.HealthPackLarge,    3f),
 
 			new WeightedKey(ItemKeys.MeleeSledgeHammer,  1f),
 			new WeightedKey(ItemKeys.PowerCrystal,       0f),
-			new WeightedKey(ItemKeys.PhaseBridge,        1f),
 
-			new WeightedKey(ItemKeys.UpgradePlayerHealth,        3f),
-			new WeightedKey(ItemKeys.UpgradePlayerEnergy,        3f),
-			new WeightedKey(ItemKeys.UpgradePlayerSprintSpeed,   3f),
-			new WeightedKey(ItemKeys.UpgradePlayerGrabRange,     3f),
-			new WeightedKey(ItemKeys.UpgradePlayerGrabStrength,  3f),
-			new WeightedKey(ItemKeys.UpgradePlayerExtraJump,     3f),
-			new WeightedKey(ItemKeys.UpgradePlayerTumbleLaunch,  3f),
-			new WeightedKey(ItemKeys.UpgradePlayerTumbleWings,   3f),
-			new WeightedKey(ItemKeys.UpgradePlayerCrouchRest,    3f),
+			new WeightedKey(ItemKeys.UpgradePlayerHealth,        1f),
+			new WeightedKey(ItemKeys.UpgradePlayerEnergy,        1f),
+			new WeightedKey(ItemKeys.UpgradePlayerSprintSpeed,   1f),
+			new WeightedKey(ItemKeys.UpgradePlayerGrabRange,     1f),
+			new WeightedKey(ItemKeys.UpgradePlayerGrabStrength,  1f),
+			new WeightedKey(ItemKeys.UpgradePlayerExtraJump,     1f),
+			new WeightedKey(ItemKeys.UpgradePlayerTumbleLaunch,  1f),
+			new WeightedKey(ItemKeys.UpgradePlayerTumbleWings,   1f),
+			new WeightedKey(ItemKeys.UpgradePlayerCrouchRest,    1f),
 			new WeightedKey(ItemKeys.UpgradeMapPlayerCount,      0f),
 		};
 
