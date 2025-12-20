@@ -55,7 +55,7 @@ namespace EnemyDrops
 				? enemy.CustomValuableSpawnTransform
 				: enemy.CenterTransform ? enemy.CenterTransform : enemy.transform;
 
-			Vector3 pos = t.position + Vector3.up * upwardOffset;
+			Vector3 pos = t.position + (Vector3.up * upwardOffset);
 			Quaternion rot = t.rotation;
 
 			// Reflection-based danger level (1..3)
@@ -92,6 +92,7 @@ namespace EnemyDrops
 			bool success = ItemProvider.TrySpawnByKey(key, pos, rot, out spawned, 0f);
 			if (success)
 			{
+				DroppedInstanceTracker.MarkDropped(spawned!);
 				s_dropsThisLevel++;
 			}
 			return success;

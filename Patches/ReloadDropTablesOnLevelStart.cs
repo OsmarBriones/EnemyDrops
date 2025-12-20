@@ -1,5 +1,6 @@
 using EnemyDrops.Configuration;
 using HarmonyLib;
+using System.Text;
 
 namespace EnemyDrops.Patches
 {
@@ -16,11 +17,38 @@ namespace EnemyDrops.Patches
 				// Refresh config, then reset the per-level drop counter
 				ConfigurationController.Reload(EnemyDrops.Logger);
 				ItemDropper.ResetForNewLevel();
+				DroppedInstanceTracker.ClearForNewLevel();
+				//LogBatteryTable();
 			}
 			catch (System.Exception ex)
 			{
 				EnemyDrops.Logger.LogError($"EnemyDrops: Failed during level-start reload/reset: {ex}");
 			}
+		}
+
+		private static void LogBatteryTable()
+		{
+			var stats = StatsManager.instance;
+			if (stats == null)
+			{
+				EnemyDrops.Logger.LogWarning("EnemyDrops: StatsManager.instance is null; cannot dump battery table.");
+				return;
+			}
+
+			var map = stats.itemStatBattery;
+			if (map == null || map.Count == 0)
+			{
+				EnemyDrops.Logger.LogInfo("EnemyDrops: itemStatBattery is empty.");
+				return;
+			}
+
+			var sb = new StringBuilder();
+			sb.AppendLine("EnemyDrops: itemStatBattery dump (instanceName = battery):");
+			foreach (var kvp in map)
+			{
+				sb.AppendLine($"  {kvp.Key} = {kvp.Value}");
+			}
+			EnemyDrops.Logger.LogInfo(sb.ToString());
 		}
 	}
 }

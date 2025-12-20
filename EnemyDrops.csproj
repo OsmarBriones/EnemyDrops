@@ -56,6 +56,7 @@
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="set DEST=&quot;C:\Program Files (x86)\Steam\steamapps\common\REPO\BepInEx\plugins&quot;&#xD;&#xA;if not exist %25DEST%25 mkdir %25DEST%25&#xD;&#xA;xcopy /Y /R /I &quot;$(TargetPath)&quot; %25DEST%25\" />
+    <Exec Command="set DEST=&quot;C:\Users\PRIDE CERBERO\AppData\Roaming\r2modmanPlus-local\REPO\profiles\Debug\BepInEx\plugins&quot;&#xD;&#xA;if not exist %25DEST%25 mkdir %25DEST%25&#xD;&#xA;xcopy /Y /R /I &quot;$(TargetPath)&quot; %25DEST%25\" />
   </Target>
 
 </Project>
