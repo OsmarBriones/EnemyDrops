@@ -35,34 +35,43 @@ namespace EnemyDrops
 			var stats = StatsManager.instance;
 			if (stats == null)
 			{
-				EnemyDrops.Logger.LogWarning("EnemyDrops: StatsManager.instance is null; cannot clear dropped batteries.");
+				EnemyDrops.Logger.LogWarning("EnemyDrops: StatsManager.instance is null; cannot clear dropped instances.");
 				return;
 			}
 
-			var map = stats.itemStatBattery;
-			if (map == null || map.Count == 0)
+			if (stats.item == null || stats.itemStatBattery == null)
 			{
-				EnemyDrops.Logger.LogDebug("EnemyDrops: itemStatBattery empty; nothing to clear.");
+				EnemyDrops.Logger.LogWarning("EnemyDrops: StatsManager item tables are null; cannot clear dropped instances.");
 				ClearForNewLevel();
 				return;
 			}
 
+			// Snapshot tracked instances so we can safely modify the dictionaries.
+			var toRemove = new List<string>(s_droppedInstances);
 			var removed = new List<string>();
-			var keys = new List<string>(map.Keys); // snapshot to avoid modifying during enumeration
-			for (int i = 0; i < keys.Count; i++)
+
+			for (int i = 0; i < toRemove.Count; i++)
 			{
-				var key = keys[i];
-				if (IsDropped(key))
+				var instanceName = toRemove[i];
+				if (string.IsNullOrEmpty(instanceName)) continue;
+
+				if (stats.item.ContainsKey(instanceName))
 				{
-					map.Remove(key);
-					removed.Add(key);
+					stats.item.Remove(instanceName);
 				}
+
+				if (stats.itemStatBattery.ContainsKey(instanceName))
+				{
+					stats.itemStatBattery.Remove(instanceName);
+				}
+
+				removed.Add(instanceName);
 			}
 
 			if (removed.Count > 0)
 			{
 				var sb = new StringBuilder();
-				sb.AppendLine("EnemyDrops: Cleared batteries for dropped instances:");
+				sb.AppendLine("EnemyDrops: Removed dropped instances from item + itemStatBattery:");
 				for (int i = 0; i < removed.Count; i++)
 				{
 					sb.AppendLine($"  {removed[i]}");
@@ -71,7 +80,7 @@ namespace EnemyDrops
 			}
 			else
 			{
-				EnemyDrops.Logger.LogDebug("EnemyDrops: No dropped instances found to clear.");
+				EnemyDrops.Logger.LogDebug("EnemyDrops: No dropped instances found to remove.");
 			}
 
 			ClearForNewLevel();
