@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace EnemyDrops
 {
-	[BepInPlugin("osmarbriones.EnemyDrops", "EnemyDrops", "1.0.0")]
+	[BepInPlugin("osmarbriones.EnemyDrops", "EnemyDrops", "1.1.0")]
 	public class EnemyDrops : BaseUnityPlugin
 	{
 		internal static EnemyDrops Instance { get; private set; } = null!;
-		internal new static ManualLogSource Logger => Instance._logger;
+		internal static new ManualLogSource Logger => Instance._logger;
 		private ManualLogSource _logger => base.Logger;
 		internal Harmony? Harmony { get; set; }
 
@@ -19,11 +19,11 @@ namespace EnemyDrops
 			Instance = this;
 
 			// Prevent the plugin from being deleted
-			this.gameObject.transform.parent = null;
-			this.gameObject.hideFlags = HideFlags.HideAndDontSave;
+			gameObject.transform.parent = null;
+			gameObject.hideFlags = HideFlags.HideAndDontSave;
 
 			// Centralized configuration initialization
-			ConfigurationController.Initialize(this.Config, Logger);
+			ConfigurationController.Initialize(Config, Logger);
 
 			Patch();
 
