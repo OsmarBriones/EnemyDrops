@@ -19,6 +19,7 @@ namespace EnemyDrops.Patches
 				ItemDropper.ResetForNewLevel();
 				DroppedInstanceTracker.ClearForNewLevel();
 
+				// Used for debugging, letting them here in case needed again in the future
 				//LogItemTable();
 				//LogBatteryTable();
 			}
