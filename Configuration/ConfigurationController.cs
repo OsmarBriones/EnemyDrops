@@ -9,13 +9,9 @@ namespace EnemyDrops.Configuration
 	{
 		private static ConfigFile? _config;
 		private static ConfigEntry<int>? _maxDropsPerLevel;
-		private static ConfigEntry<bool>? _resetEnergyOnLevelStart;
 
 		/// Exposes the configured max number of item drops per level (defaults to 200 if uninitialized).
 		internal static int MaxDropsPerLevel => _maxDropsPerLevel?.Value ?? 200;
-
-		/// When true, all items that use energy (have ItemBattery) are restored to 100% at level start.
-		internal static bool ResetItemsEnergyOnLevelStart => _resetEnergyOnLevelStart?.Value ?? false;
 
 		/// Initializes configuration-backed drop tables and logs active weights.
 		internal static void Initialize(ConfigFile config, ManualLogSource logger)
@@ -34,13 +30,6 @@ namespace EnemyDrops.Configuration
 					"Maximum number of items that can drop each level.",
 					new AcceptableValueRange<int>(0, 1000)));
 
-			_resetEnergyOnLevelStart = _config.Bind(
-				"Items Energy",
-				nameof(ResetItemsEnergyOnLevelStart),
-				false,
-				"When enabled, all items that use energy (have ItemBattery) are restored to 100% energy at the start of each level. " +
-				"Use this to fix old save files with broken energy, then disable it.");
-
 			// Build or rebuild the runtime matrix from config entries
 			ItemDropTables.InitializeConfig(_config);
 
@@ -49,7 +38,7 @@ namespace EnemyDrops.Configuration
 
 			// Log current weights
 			ItemDropTables.LogWeights(logger);
-			logger.LogInfo($"EnemyDrops: Configuration initialized. MaxDropsPerLevel={MaxDropsPerLevel}, ResetEnergyOnLevelStart={ResetItemsEnergyOnLevelStart}");
+			logger.LogInfo($"EnemyDrops: Configuration initialized. MaxDropsPerLevel={MaxDropsPerLevel}");
 		}
 
 		/// Reloads configuration from disk and rebuilds the drop tables.
@@ -68,7 +57,7 @@ namespace EnemyDrops.Configuration
 				_config.Save();
 
 				ItemDropTables.LogWeights(logger);
-				logger.LogInfo($"EnemyDrops: Configuration reloaded. MaxDropsPerLevel={MaxDropsPerLevel}, ResetEnergyOnLevelStart={ResetItemsEnergyOnLevelStart}");
+				logger.LogInfo($"EnemyDrops: Configuration reloaded. MaxDropsPerLevel={MaxDropsPerLevel}");
 			}
 			catch (Exception ex)
 			{
