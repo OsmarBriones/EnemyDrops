@@ -45,7 +45,9 @@ namespace EnemyDrops
 			new WeightedKey(ItemKeys.MeleeSword,             1f),
 
 			new WeightedKey(ItemKeys.ValuableTracker,    1f),
-			new WeightedKey(ItemKeys.ExtractionTracker,  1f)
+			new WeightedKey(ItemKeys.ExtractionTracker,  1f),
+
+			new WeightedKey(ItemKeys.LeafBlower, 1f)
 		};
 
 		private static readonly IReadOnlyList<WeightedKey> s_mediumItems = new[]
@@ -68,6 +70,14 @@ namespace EnemyDrops
 			new WeightedKey(ItemKeys.UpgradeDeathHeadBattery,   1f),
 
 			new WeightedKey(ItemKeys.PhaseBridge,        1f),
+
+			new WeightedKey(ItemKeys.VehicleSemiscooterSmall, 1f),
+
+			new WeightedKey(ItemKeys.StaffTorque, 1f),
+			new WeightedKey(ItemKeys.StaffVoid, 1f),
+			new WeightedKey(ItemKeys.StaffZeroGravity, 1f),
+
+			new WeightedKey(ItemKeys.WalkieTalkieBox, 1f)
 		};
 
 		private static readonly IReadOnlyList<WeightedKey> s_rareItems = new[]
@@ -96,6 +106,9 @@ namespace EnemyDrops
 			new WeightedKey(ItemKeys.UpgradePlayerTumbleWings,   1f),
 			new WeightedKey(ItemKeys.UpgradePlayerCrouchRest,    1f),
 			new WeightedKey(ItemKeys.UpgradeMapPlayerCount,      0f),
+
+			new WeightedKey(ItemKeys.VehicleSemiscooter, 1f),
+			new WeightedKey(ItemKeys.ReviveItem, 1f)
 		};
 
 		// Nullable: assigned in InitializeConfig()

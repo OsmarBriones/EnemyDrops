@@ -6,7 +6,7 @@ namespace EnemyDrops.Patches
 	[HarmonyPatch(typeof(PunManager), "SetItemNameLOGIC")]
 	internal static class PunManager_SetItemNameLOGIC_Patch
 	{
-		private static void Postfix(string name, int photonViewID, ItemAttributes _itemAttributes)
+		private static void Postfix(string _name, int photonViewID, ItemAttributes _itemAttributes)
 		{
 			var itemAttributes = _itemAttributes;
 			if (SemiFunc.IsMultiplayer())
@@ -21,7 +21,7 @@ namespace EnemyDrops.Patches
 			if (!itemAttributes) return;
 			if (!itemAttributes.GetComponent<DroppedItemTag>()) return;
 
-			DroppedInstanceTracker.RegisterInstance(name);
+			DroppedInstanceTracker.RegisterInstance(_name);
 		}
 	}
 }

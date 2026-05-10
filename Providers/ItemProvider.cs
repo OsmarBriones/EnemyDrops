@@ -79,7 +79,7 @@ namespace EnemyDrops.Providers
 
 		private static void ApplySpawnImpulse(GameObject? go)
 		{
-			if (!go) return;
+			if (go == null || !go) return;
 			if (go.TryGetComponent<Rigidbody>(out var rb))
 			{
 				rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
