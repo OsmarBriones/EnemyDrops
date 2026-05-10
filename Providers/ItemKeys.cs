@@ -11,6 +11,10 @@ namespace EnemyDrops.Providers
 		public const string CartMedium = "Item Cart Medium";
 		public const string CartSmall = "Item Cart Small";
 
+		// Vehicles
+		public const string VehicleSemiscooter = "Item Vehicle Semiscooter";
+		public const string VehicleSemiscooterSmall = "Item Vehicle Semiscooter Small";
+
 		// Drone modifiers
 		public const string DroneBattery = "Item Drone Battery";
 		public const string DroneFeather = "Item Drone Feather";
@@ -50,6 +54,11 @@ namespace EnemyDrops.Providers
 		public const string MeleeStunBaton = "Item Melee Stun Baton";
 		public const string MeleeSword = "Item Melee Sword";
 
+		// Staffs
+		public const string StaffTorque = "Item Staff Torque";
+		public const string StaffVoid = "Item Staff Void";
+		public const string StaffZeroGravity = "Item Staff Zero Gravity";
+
 		// Mines
 		public const string MineExplosive = "Item Mine Explosive";
 		public const string MineShockwave = "Item Mine Shockwave";
@@ -60,6 +69,9 @@ namespace EnemyDrops.Providers
 		public const string PhaseBridge = "Item Phase Bridge";
 		public const string PowerCrystal = "Item Power Crystal";
 		public const string RubberDuck = "Item Rubber Duck";
+		public const string ReviveItem = "Item ReviveItem";
+		public const string LeafBlower = "Item Leaf Blower";
+		public const string WalkieTalkieBox = "Item WalkieTalkieBox";
 
 		// Upgrades
 		public const string UpgradeDeathHeadBattery = "Item Upgrade Death Head Battery";
@@ -84,14 +96,17 @@ namespace EnemyDrops.Providers
 		public static readonly string[] All =
 		{
 			CartCannon, CartLaser, CartMedium, CartSmall,
+			VehicleSemiscooter, VehicleSemiscooterSmall,
 			DroneBattery, DroneFeather, DroneIndestructible, DroneTorque, DroneZeroGravity,
 			DuckBucket, ExtractionTracker,
 			GrenadeDuctTaped, GrenadeExplosive, GrenadeHuman, GrenadeShockwave, GrenadeStun,
 			GunHandgun, GunLaser, GunShockwave, GunShotgun, GunStun, GunTranq,
 			HealthPackLarge, HealthPackMedium, HealthPackSmall,
 			MeleeBaseballBat, MeleeFryingPan, MeleeInflatableHammer, MeleeSledgeHammer, MeleeStunBaton, MeleeSword,
+			StaffTorque, StaffVoid, StaffZeroGravity,
 			MineExplosive, MineShockwave, MineStun,
 			OrbZeroGravity, PhaseBridge, PowerCrystal, RubberDuck,
+			ReviveItem, LeafBlower, WalkieTalkieBox,
 			UpgradeDeathHeadBattery, UpgradeMapPlayerCount, UpgradePlayerCrouchRest, UpgradePlayerEnergy, UpgradePlayerExtraJump,
 			UpgradePlayerGrabRange, UpgradePlayerGrabStrength, UpgradePlayerHealth, UpgradePlayerSprintSpeed,
 			UpgradePlayerTumbleClimb, UpgradePlayerTumbleLaunch, UpgradePlayerTumbleWings,
