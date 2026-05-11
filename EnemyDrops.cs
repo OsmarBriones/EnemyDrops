@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace EnemyDrops
 {
-	[BepInPlugin("osmarbriones.EnemyDrops", "EnemyDrops", "1.1.0")]
+	[BepInPlugin("osmarbriones.EnemyDrops", "EnemyDrops", "1.2.0")]
 	public class EnemyDrops : BaseUnityPlugin
 	{
 		internal static EnemyDrops Instance { get; private set; } = null!;
