@@ -1,11 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Shared TargetFramework/LangVersion/Nullable/game paths come from Directory.Build.props -->
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <LangVersion>12</LangVersion>
-    <Nullable>enable</Nullable>
-    <Authors>osmarbriones</Authors>
-    <Version>1.0.0</Version>
+    <Authors>Osmar Briones</Authors>
+    <Version>1.2.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
@@ -22,38 +20,67 @@
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" IncludeAssets="build" />
-    
+
     <PackageReference Include="BepInEx.Core" Version="5.*" ExcludeAssets="runtime" />
   </ItemGroup>
+
+  <!-- RepoAPI: shared code from the external/RepoAPI submodule, compiled directly into this
+       assembly (no separate RepoAPI.dll, no merge step). Only the modules this mod actually
+       uses are included: Items/ItemProvider.cs + ItemKeysProvider.cs + ItemName.cs need the
+       Game/ module (GameKeyAttribute-based lookup); Item.cs, ItemNames.cs, ModConfig/, Patches/,
+       Utils/ and the root ConfigurationController.cs are unused here and stay excluded. -->
+  <ItemGroup>
+    <Compile Remove="external\**" />
+    <EmbeddedResource Remove="external\**" />
+    <None Remove="external\**" />
+
+    <Compile Include="external\RepoAPI\Items\ItemProvider.cs" />
+    <Compile Include="external\RepoAPI\Items\ItemKeysProvider.cs" />
+    <Compile Include="external\RepoAPI\Items\ItemName.cs" />
+    <Compile Include="external\RepoAPI\Items\WeightedKey.cs" />
+    <Compile Include="external\RepoAPI\Game\**\*.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\harmony\Harmony-Fat.2.4.1.0\net48\0Harmony.dll</HintPath>
+      <HintPath>$(RepoBepInExCore)\0Harmony.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(RepoManaged)\Assembly-CSharp.dll</HintPath>
+      <Publicize>true</Publicize>
+      <Private>false</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>$(RepoManaged)\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>$(RepoBepInExCore)\BepInEx.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="PhotonUnityNetworking">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\PhotonUnityNetworking.dll</HintPath>
+      <HintPath>$(RepoManaged)\PhotonUnityNetworking.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(RepoManaged)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(RepoManaged)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>$(RepoManaged)\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>$(RepoManaged)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="set DEST=&quot;C:\Program Files (x86)\Steam\steamapps\common\REPO\BepInEx\plugins&quot;&#xD;&#xA;if not exist %25DEST%25 mkdir %25DEST%25&#xD;&#xA;xcopy /Y /R /I &quot;$(TargetPath)&quot; %25DEST%25\" />
     <Exec Command="set DEST=&quot;C:\Users\PRIDE CERBERO\AppData\Roaming\r2modmanPlus-local\REPO\profiles\Debug\BepInEx\plugins&quot;&#xD;&#xA;if not exist %25DEST%25 mkdir %25DEST%25&#xD;&#xA;xcopy /Y /R /I &quot;$(TargetPath)&quot; %25DEST%25\" />

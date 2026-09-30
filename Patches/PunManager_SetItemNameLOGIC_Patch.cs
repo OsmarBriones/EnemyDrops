@@ -1,27 +1,31 @@
+#nullable enable
+using EnemyDrops.Tracking;
 using HarmonyLib;
 using Photon.Pun;
 
-namespace EnemyDrops.Patches
+namespace EnemyDrops.Patches;
+
+/// <summary>
+/// Captures the runtime instance name assigned to dropped items by PunManager to link with StatsManager battery stats.
+/// </summary>
+[HarmonyPatch(typeof(PunManager), "SetItemNameLOGIC")]
+internal static class PunManager_SetItemNameLOGIC_Patch
 {
-	[HarmonyPatch(typeof(PunManager), "SetItemNameLOGIC")]
-	internal static class PunManager_SetItemNameLOGIC_Patch
+	private static void Postfix(string _name, int photonViewID, ItemAttributes _itemAttributes)
 	{
-		private static void Postfix(string _name, int photonViewID, ItemAttributes _itemAttributes)
+		var itemAttributes = _itemAttributes;
+		if (SemiFunc.IsMultiplayer())
 		{
-			var itemAttributes = _itemAttributes;
-			if (SemiFunc.IsMultiplayer())
+			var pv = PhotonView.Find(photonViewID);
+			if (pv != null)
 			{
-				var pv = PhotonView.Find(photonViewID);
-				if (pv != null)
-				{
-					itemAttributes = pv.GetComponent<ItemAttributes>();
-				}
+				itemAttributes = pv.GetComponent<ItemAttributes>();
 			}
-
-			if (!itemAttributes) return;
-			if (!itemAttributes.GetComponent<DroppedItemTag>()) return;
-
-			DroppedInstanceTracker.RegisterInstance(_name);
 		}
+
+		if (!itemAttributes) return;
+		if (!itemAttributes.GetComponent<DroppedItemTag>()) return;
+
+		DroppedInstanceTracker.RegisterInstance(_name);
 	}
 }

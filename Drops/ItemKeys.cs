@@ -1,10 +1,10 @@
-namespace EnemyDrops.Providers
+namespace EnemyDrops.Drops;
+
+/// <summary>
+/// Strongly-named constants for all known item dictionary keys.
+/// </summary>
+internal static class ItemKeys
 {
-	/// <summary>
-	/// Strongly-named constants for all known item dictionary keys.
-	/// </summary>
-	public static class ItemKeys
-	{
 		// Carts
 		public const string CartCannon = "Item Cart Cannon";
 		public const string CartLaser = "Item Cart Laser";
@@ -113,4 +113,3 @@ namespace EnemyDrops.Providers
 			ValuableTracker
 		};
 	}
-}
