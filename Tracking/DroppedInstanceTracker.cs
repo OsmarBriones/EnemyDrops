@@ -121,12 +121,10 @@ internal static class DroppedInstanceTracker
 		var droppedTags = Object.FindObjectsOfType<DroppedItemTag>();
 		var preservedInstances = new HashSet<string>();
 
-		if (preserveEnabled && currentPreserved < maxPreserved && droppedTags != null)
+		if (preserveEnabled && droppedTags != null)
 		{
 			for (int i = 0; i < droppedTags.Length; i++)
 			{
-				if (currentPreserved >= maxPreserved) break;
-
 				var tag = droppedTags[i];
 				if (!tag) continue;
 
@@ -137,6 +135,12 @@ internal static class DroppedInstanceTracker
 				{
 					string instanceName = itemAttr.instanceName;
 					string baseItemName = itemAttr.item != null ? itemAttr.item.name : (instanceName.Contains("/") ? instanceName.Split('/')[0] : instanceName);
+
+					if (currentPreserved >= maxPreserved)
+					{
+						EnemyDropsPlugin.Logger.LogInfo($"EnemyDrops: Item '{baseItemName}' ({instanceName}) is secured, but MaxPreservedItems limit ({maxPreserved}) has been reached. Item will not persist.");
+						continue;
+					}
 
 					if (!string.IsNullOrEmpty(baseItemName) && stats.itemDictionary.ContainsKey(baseItemName))
 					{

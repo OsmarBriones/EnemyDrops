@@ -1,14 +1,18 @@
 # Changelog
 
-
-## [2.0.1] - 2026-09-29
-- Restore Rucio credits in README.md
-- Restore historical changelog entries for v1.0.0 through v1.2.0
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.0.1] - 2026-09-29
+
+### Added
+- Informative log message when a secured dropped item cannot be preserved due to reaching the `MaxPreservedItems` capacity limit.
+
+### Fixed
+- Restored missing contributor credits in README.md (special thanks to Rucio for REPO 0.4.0+ weapon items).
+- Restored complete historical changelog entries (v1.0.0 through v1.2.0) in CHANGELOG.md.
 
 ## [2.0.0] - 2026-09-29
 
