@@ -1,5 +1,10 @@
 # Changelog
 
+
+## [2.0.1] - 2026-09-29
+- Restore Rucio credits in README.md
+- Restore historical changelog entries for v1.0.0 through v1.2.0
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
