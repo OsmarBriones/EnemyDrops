@@ -18,3 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced custom roulette item selection and spawning logic with `RepoAPI.Items` (`ItemProvider.TrySpawnWeightedItem`).
 - Refactored entire codebase to comply with `REPO_MODS_METHODOLOGY.md` standards (standardized patch names, removed Hungarian notation prefixes, scoped mod internals).
 - Transitioned `SemiFunc_OnSceneSwitch_Patch` to run as a Prefix so saved game data accurately reflects preserved items and cleaned drop tables before `SaveFileSave`.
+
+## [1.2.0] - 2026-05-11
+- Fixed compatibility with REPO 0.4.0+.
+- Added new item drops: Leaf Blower, Semiscooter, Semiscooter Small, Staff Torque, Staff Void, Staff Zero Gravity, Walkie Talkie Box, and Revive Item.
+
+## [1.1.0] - 2026-03-01
+- Fixed bug causing items purchased from the store to have low battery.
+
+## [1.0.0] - 2025-11-18
+- Initial release. Monstes drop items upon death based on danger level.
