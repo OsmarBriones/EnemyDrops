@@ -60,5 +60,6 @@ Please report any bugs or suggest features on GitHub:
 https://github.com/OsmarBriones/EnemyDrops/issues
 
 ## Credits
-Based on the idea from [REPO Enemy Drops by ImVertro](https://thunderstore.io/c/repo/p/ImVertro/REPO_Enemy_Drops/)  
-Developed by **Osmar Briones**
+- Based on the original concept from [REPO Enemy Drops by ImVertro](https://thunderstore.io/c/repo/p/ImVertro/REPO_Enemy_Drops/).
+- Developed by **Osmar Briones**.
+- Special thanks to **Rucio** for the REPO 0.4.0+ compatibility fix and weapon item additions.
