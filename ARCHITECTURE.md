@@ -44,6 +44,8 @@ EnemyDrops/
 │   ├── DroppedInstanceTracker.cs           # Tracks level drops, validates secured status, handles scene switches
 │   ├── DroppedItemTag.cs                   # Marker component attached to mod-spawned items
 │   └── PreservedItemTracker.cs             # Manages active preserved drop counts via StatsManager
+├── Visuals/
+│   └── EnemyDropVisuals.cs                 # Applies uniform gray material styling and optional light aura
 ├── EnemyDropsPlugin.cs                     # BepInEx plugin entry point
 └── EnemyDrops.csproj
 ```
@@ -97,8 +99,9 @@ Steps:
    - Uses `enemy.CustomValuableSpawnTransform`, `enemy.CenterTransform`, or `enemy.transform` with a ground-offset.
 3. **Delegate to RepoAPI**
    - Calls `ItemProvider.TrySpawnWeightedItem(table, pos, rot, out spawned, dropChance: 0f)`.
-4. **Mark Spawned Object**
+4. **Mark Spawned Object & Attach Visual Styling**
    - Attaches `DroppedItemTag` via `DroppedInstanceTracker.MarkDropped(spawned)`.
+   - Attaches `EnemyDropVisuals`, which modifies material color properties (`_Color`, `_BaseColor`, `_EmissionColor`) via configurable RGB multipliers and additive offset while keeping textures and normal maps intact, and attaches a pulsating reddish point light aura centered dynamically inside the object via combined renderer bounds.
 
 ---
 
@@ -153,6 +156,15 @@ Entry points:
     - `MaxDropsPerLevel` (int, default: 200, range: 0..1000): Maximum item drops per level.
     - `PreserveItemsBetweenLevels` (bool, default: false): Enables keeping secured enemy drops across levels.
     - `MaxPreservedItems` (int, default: 10, range: 0..100): Maximum simultaneous enemy-dropped items preserved across levels.
+  - `Visuals`:
+    - `EnableColorModification` (bool, default: true): Applies material color tinting/multiplier to dropped items while preserving original textures.
+    - `ColorMultiplierR` (float, default: 0.55, range: 0.0..2.0): Red channel multiplier for material colors.
+    - `ColorMultiplierG` (float, default: 0.55, range: 0.0..2.0): Green channel multiplier for material colors.
+    - `ColorMultiplierB` (float, default: 0.55, range: 0.0..2.0): Blue channel multiplier for material colors.
+    - `ColorAdd` (float, default: 0.05, range: -1.0..1.0): Additive offset applied to material colors.
+    - `EnableDropAura` (bool, default: true): Enables centered reddish light aura on dropped items.
+    - `AuraIntensity` (float, default: 0.8, range: 0.1..3.0): Brightness/intensity of the reddish drop aura.
+    - `AuraRange` (float, default: 3.5, range: 0.5..10.0): Range in meters of the reddish drop aura.
   - Difficulty Drop Tables:
     - Weighted entries per monster difficulty (Difficulty 1, 2, 3).
 

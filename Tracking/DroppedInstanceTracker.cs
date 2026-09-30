@@ -1,5 +1,6 @@
 #nullable enable
 using EnemyDrops.Configuration;
+using EnemyDrops.Visuals;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -20,6 +21,10 @@ internal static class DroppedInstanceTracker
 		if (!go.GetComponent<DroppedItemTag>())
 		{
 			go.AddComponent<DroppedItemTag>();
+		}
+		if (!go.GetComponent<EnemyDropVisuals>())
+		{
+			go.AddComponent<EnemyDropVisuals>();
 		}
 	}
 

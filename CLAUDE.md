@@ -86,7 +86,7 @@ Enemy Death
             ├─ IsExcludedEnemy()                          ← skips Gnome, Banger, etc.
             ├─ ItemDropTables.GetWeightsFor(difficulty)  ← weighted table per difficulty
             ├─ ItemProvider.TrySpawnWeightedItem()        ← from RepoAPI.Items (weighted selection + spawn)
-            └─ DroppedInstanceTracker.MarkDropped()       ← adds DroppedItemTag component
+            └─ DroppedInstanceTracker.MarkDropped()       ← adds DroppedItemTag & EnemyDropVisuals components
 
 Item Name Assigned (Photon sync)
   └─ PunManager_SetItemNameLOGIC_Patch
@@ -110,6 +110,7 @@ Item Consumption / Removal
 
 - **`ConditionalWeakTable` in `EnemyHealth_Awake_Patch`**: Prevents subscribing to `onDeath` multiple times per `EnemyHealth` instance across reloads.
 - **`DroppedItemTag` marker component**: Used as a runtime tag on GameObjects; links spawned items with EnemyDrops.
+- **`EnemyDropVisuals` visual component**: Modifies material colors (`_Color`, `_BaseColor`, `_EmissionColor`) using RGB multipliers and additive offset while keeping textures and normal maps intact. Also attaches a pulsating reddish point light aura centered dynamically inside the object via combined renderer bounds.
 - **Instance name registration is deferred**: The battery dictionary (`StatsManager.itemStatBattery`) is keyed by instance names like `"Item Gun Shotgun/1"` which are assigned asynchronously by `PunManager.SetItemNameLOGIC`, not at spawn time.
 - **Prefix on `SemiFunc.OnSceneSwitch`**: Executes before `SemiFunc.SaveFileSave()` so preserved items are persisted to disk and unpersisted drops are cleaned up immediately.
 - **Host-only guard**: Every drop and persistence decision is gated on `SemiFunc.IsMasterClientOrSingleplayer()`.
@@ -125,5 +126,14 @@ Generated at `BepInEx/config/osmarbriones.EnemyDrops.cfg`:
   - `MaxDropsPerLevel` (int, default: 200, range: 0..1000): Maximum item drops per level.
   - `PreserveItemsBetweenLevels` (bool, default: false): Enables keeping secured enemy drops across levels.
   - `MaxPreservedItems` (int, default: 10, range: 0..100): Maximum simultaneous enemy-dropped items preserved across levels.
+- `Visuals`:
+  - `EnableColorModification` (bool, default: true): Applies material color tinting/multiplier to dropped items while preserving original textures.
+  - `ColorMultiplierR` (float, default: 0.55, range: 0.0..2.0): Red channel multiplier for material colors.
+  - `ColorMultiplierG` (float, default: 0.55, range: 0.0..2.0): Green channel multiplier for material colors.
+  - `ColorMultiplierB` (float, default: 0.55, range: 0.0..2.0): Blue channel multiplier for material colors.
+  - `ColorAdd` (float, default: 0.05, range: -1.0..1.0): Additive offset applied to material colors.
+  - `EnableDropAura` (bool, default: true): Enables centered reddish light aura on dropped items.
+  - `AuraIntensity` (float, default: 0.8, range: 0.1..3.0): Brightness/intensity of the reddish drop aura.
+  - `AuraRange` (float, default: 3.5, range: 0.5..10.0): Range in meters of the reddish drop aura.
 - Per-difficulty weighted item tables (Difficulty 1, 2, 3).
 Config is reloaded each level start, not just once at plugin load.

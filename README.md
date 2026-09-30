@@ -16,6 +16,8 @@ This version is a fully native BepInEx implementation for users who prefer not t
 - Monsters drop items upon death based on their danger level.
 - Configure drop chances and weights for every item per monster difficulty tier.
 - Set a maximum limit on item drops per level.
+- **Visual Distinction (Color Modification)**: Items dropped by enemies have their material colors subtly darkened and tinted, clearly differentiating them from normal dungeon loot while keeping all original surface textures, screen displays, labels, and details intact.
+- **Centered Light Aura**: A soft, pulsating reddish point light aura centered directly inside enemy-dropped items that automatically dims or switches off when held or equipped.
 - **Item Preservation**: Option to keep items secured in the truck or inventory across subsequent levels.
 - **Preservation Limit**: Configurable cap on the maximum number of enemy-dropped items that can be preserved simultaneously (default: 10).
 - Only the host needs to have the mod installed — clients do not.
@@ -37,6 +39,16 @@ located in `BepInEx/config`.
 - **`MaxDropsPerLevel`** (Default: `200`): Maximum number of items that can drop in a single level.
 - **`PreserveItemsBetweenLevels`** (Default: `false`): When enabled (`true`), enemy-dropped items that players carry to safety inside the truck or keep in their inventory will persist into future levels and be saved with your run.
 - **`MaxPreservedItems`** (Default: `10`): Maximum number of enemy-dropped items that can be preserved simultaneously. Standard shop-purchased items do not count toward this limit.
+
+### Visual Settings
+- **`EnableColorModification`** (Default: `true`): Enables custom color tinting and multipliers on enemy-dropped items while preserving original textures and displays.
+- **`ColorMultiplierR`** (Default: `0.55`): Red multiplier applied to the material colors (0.0 to 2.0).
+- **`ColorMultiplierG`** (Default: `0.55`): Green multiplier applied to the material colors (0.0 to 2.0).
+- **`ColorMultiplierB`** (Default: `0.55`): Blue multiplier applied to the material colors (0.0 to 2.0).
+- **`ColorAdd`** (Default: `0.05`): Additive offset applied to the material colors (-1.0 to 1.0).
+- **`EnableDropAura`** (Default: `true`): Enables a soft, pulsating reddish light aura centered inside dropped items.
+- **`AuraIntensity`** (Default: `0.8`): Controls the brightness and intensity of the reddish drop aura.
+- **`AuraRange`** (Default: `3.5`): Controls how far the light aura reaches in meters.
 
 ### Difficulty-Based Drop Tables
 The `.cfg` file includes three difficulty sections:

@@ -18,21 +18,19 @@ internal static class ItemDropTables
 		new WeightedKey(ItemKeys.GrenadeStun,        3f),
 		new WeightedKey(ItemKeys.GrenadeShockwave,   3f),
 		new WeightedKey(ItemKeys.GrenadeExplosive,   2f),
+		new WeightedKey(ItemKeys.GrenadeDuctTaped,   2f),
+		new WeightedKey(ItemKeys.GrenadeHuman,       2f),
 		new WeightedKey(ItemKeys.MineStun,           3f),
 		new WeightedKey(ItemKeys.MineExplosive,      2f),
 		new WeightedKey(ItemKeys.MineShockwave,      3f),
 
-		new WeightedKey(ItemKeys.DroneZeroGravity,   1f),
-		new WeightedKey(ItemKeys.DroneTorque,        1f),
-		new WeightedKey(ItemKeys.OrbZeroGravity,     1f),
-
 		new WeightedKey(ItemKeys.HealthPackSmall,    3f),
-		new WeightedKey(ItemKeys.DuckBucket,         1f),
 
+		new WeightedKey(ItemKeys.DroneTorque,        1f),
+		new WeightedKey(ItemKeys.DuckBucket,         1f),
 		new WeightedKey(ItemKeys.RubberDuck,         1f),
 		new WeightedKey(ItemKeys.MeleeFryingPan,     1f),
 		new WeightedKey(ItemKeys.MeleeInflatableHammer, 1f),
-		new WeightedKey(ItemKeys.MeleeSword,         1f),
 
 		new WeightedKey(ItemKeys.ValuableTracker,    1f),
 		new WeightedKey(ItemKeys.ExtractionTracker,  1f),
@@ -42,22 +40,21 @@ internal static class ItemDropTables
 
 	private static readonly IReadOnlyList<WeightedKey> mediumItems = new[]
 	{
-		new WeightedKey(ItemKeys.CartSmall,          1f),
+		new WeightedKey(ItemKeys.HealthPackMedium,   3f),
 
-		new WeightedKey(ItemKeys.GrenadeDuctTaped,   3f),
-		new WeightedKey(ItemKeys.GrenadeHuman,       3f),
+		new WeightedKey(ItemKeys.MeleeStunBaton,     2f),
+		new WeightedKey(ItemKeys.MeleeSword,         1f),
+
+		new WeightedKey(ItemKeys.CartSmall,          1f),
 
 		new WeightedKey(ItemKeys.GunHandgun,         1f),
 		new WeightedKey(ItemKeys.GunTranq,           1f),
 		new WeightedKey(ItemKeys.GunStun,            1f),
 		new WeightedKey(ItemKeys.GunShockwave,       1f),
 
-		new WeightedKey(ItemKeys.HealthPackMedium,   3f),
-		new WeightedKey(ItemKeys.MeleeBaseballBat,   2f),
-		new WeightedKey(ItemKeys.MeleeStunBaton,     2f),
-
 		new WeightedKey(ItemKeys.UpgradePlayerTumbleClimb, 1f),
 		new WeightedKey(ItemKeys.UpgradeDeathHeadBattery,  1f),
+		new WeightedKey(ItemKeys.UpgradePlayerEnergy,      1f),
 
 		new WeightedKey(ItemKeys.PhaseBridge,        1f),
 
@@ -72,22 +69,28 @@ internal static class ItemDropTables
 
 	private static readonly IReadOnlyList<WeightedKey> rareItems = new[]
 	{
-		new WeightedKey(ItemKeys.CartMedium,         1f),
-		new WeightedKey(ItemKeys.CartCannon,         1f),
-		new WeightedKey(ItemKeys.CartLaser,          1f),
+		new WeightedKey(ItemKeys.HealthPackLarge,    3f),
+
 		new WeightedKey(ItemKeys.DroneFeather,       2f),
 		new WeightedKey(ItemKeys.DroneIndestructible, 2f),
 		new WeightedKey(ItemKeys.DroneBattery,       1f),
+		new WeightedKey(ItemKeys.DroneZeroGravity,   1f),
+
+		new WeightedKey(ItemKeys.CartMedium,         1f),
+		new WeightedKey(ItemKeys.CartCannon,         1f),
+		new WeightedKey(ItemKeys.CartLaser,          1f),
+
+		new WeightedKey(ItemKeys.OrbZeroGravity,     1f),
 
 		new WeightedKey(ItemKeys.GunShotgun,         1f),
 		new WeightedKey(ItemKeys.GunLaser,           1f),
-		new WeightedKey(ItemKeys.HealthPackLarge,    3f),
 
 		new WeightedKey(ItemKeys.MeleeSledgeHammer,  1f),
+		new WeightedKey(ItemKeys.MeleeBaseballBat,   1f),
+
 		new WeightedKey(ItemKeys.PowerCrystal,       0f),
 
 		new WeightedKey(ItemKeys.UpgradePlayerHealth,       1f),
-		new WeightedKey(ItemKeys.UpgradePlayerEnergy,       1f),
 		new WeightedKey(ItemKeys.UpgradePlayerSprintSpeed,  1f),
 		new WeightedKey(ItemKeys.UpgradePlayerGrabRange,    1f),
 		new WeightedKey(ItemKeys.UpgradePlayerGrabStrength, 1f),

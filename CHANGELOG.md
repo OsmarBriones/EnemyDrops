@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-09-30
+
+### Added
+- Material color modification (`EnemyDropVisuals`) applied to all renderers of monster-dropped items, tinting and darkening colors via RGB multipliers and additive offset while preserving original textures, displays, and surface details.
+- Pulsating reddish light aura (`EnableDropAura`) dynamically centered directly inside dropped items via combined renderer bounds, with automatic dimming and deactivation when grabbed or equipped.
+- Dedicated `[Visuals]` configuration section in `osmarbriones.EnemyDrops.cfg` (`EnableColorModification`, `ColorMultiplierR`, `ColorMultiplierG`, `ColorMultiplierB`, `ColorAdd`, `EnableDropAura`, `AuraIntensity`, `AuraRange`).
+
+### Changed
+- Rebalanced default drop table distributions according to in-game shop item values: moved budget grenades (`GrenadeHuman`, `GrenadeDuctTaped`) to Easy monsters, high-value tech/weapons (`OrbZeroGravity`, `DroneZeroGravity`, `BaseballBat`) to Hard monsters, and repositioned `Sword` and `UpgradePlayerEnergy` to Medium monsters.
+
 ## [2.0.3] - 2026-09-29
 
 ### Changed
