@@ -1,6 +1,6 @@
 {
     "name":  "EnemyDrops",
-    "version_number":  "1.2.0",
+    "version_number":  "2.0.0",
     "website_url":  "https://github.com/OsmarBriones/EnemyDrops",
     "description":  "Monsters drop items when they die. Fully configurable. Only the host needs to have it. Native BepInEx.",
     "dependencies":  [
