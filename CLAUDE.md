@@ -38,6 +38,7 @@ Testing is done in-game — build, launch R.E.P.O., and observe behavior. There 
 <Compile Include="external\RepoAPI\Items\ItemProvider.cs" />
 <Compile Include="external\RepoAPI\Items\ItemKeysProvider.cs" />
 <Compile Include="external\RepoAPI\Items\ItemName.cs" />
+<Compile Include="external\RepoAPI\Items\ItemPreservation.cs" />
 <Compile Include="external\RepoAPI\Items\WeightedKey.cs" />
 <Compile Include="external\RepoAPI\Game\**\*.cs" />
 ```

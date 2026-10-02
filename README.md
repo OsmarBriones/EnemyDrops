@@ -16,8 +16,8 @@ This version is a fully native BepInEx implementation for users who prefer not t
 - Monsters drop items upon death based on their danger level.
 - Configure drop chances and weights for every item per monster difficulty tier.
 - Set a maximum limit on item drops per level.
-- **Visual Distinction (Color Modification)**: Items dropped by enemies have their material colors subtly darkened and tinted, clearly differentiating them from normal dungeon loot while keeping all original surface textures, screen displays, labels, and details intact.
-- **Centered Light Aura**: A soft, pulsating reddish point light aura centered directly inside enemy-dropped items that automatically dims or switches off when held or equipped.
+- **Visual Distinction (Color Modification)**: Optional color tinting and multipliers on enemy-dropped items while keeping all original surface textures, screen displays, labels, and details intact (disabled by default).
+- **Centered Light Aura**: A soft, pulsating reddish point light aura centered directly inside enemy-dropped items that automatically dims or switches off when held or equipped (enabled by default).
 - **Item Preservation**: Option to keep items secured in the truck or inventory across subsequent levels.
 - **Preservation Limit**: Configurable cap on the maximum number of enemy-dropped items that can be preserved simultaneously (default: 10).
 - Only the host needs to have the mod installed — clients do not.
@@ -40,8 +40,16 @@ located in `BepInEx/config`.
 - **`PreserveItemsBetweenLevels`** (Default: `false`): When enabled (`true`), enemy-dropped items that players carry to safety inside the truck or keep in their inventory will persist into future levels and be saved with your run.
 - **`MaxPreservedItems`** (Default: `10`): Maximum number of enemy-dropped items that can be preserved simultaneously. Standard shop-purchased items do not count toward this limit.
 
+### How Item Preservation Works
+When `PreserveItemsBetweenLevels` is enabled (`true`), you can save enemy drops across levels and into your saved game:
+- **Securing items:** An item is considered secured if it is inside the truck room, held/grabbed by any player, stored in a player's inventory slot, or placed near the truck entrance (within 8 meters).
+- **Preservation cap (`MaxPreservedItems`):** You can keep up to the configured limit (default: 10) of enemy drops active at the same time. If more secured enemy drops are brought than the cap allows, items up to the limit are preserved and any surplus is discarded.
+- **Shop items are exempt:** Items purchased from the shop do not count toward this limit.
+- **Dynamic slot recycling:** When you consume (e.g. syringe, medkit) or lose a preserved item, its slot is freed up automatically so new enemy drops can take its place.
+- **Host-authoritative:** Only the host needs this enabled. Items secured by any player (host or connected clients) are properly evaluated and saved.
+
 ### Visual Settings
-- **`EnableColorModification`** (Default: `true`): Enables custom color tinting and multipliers on enemy-dropped items while preserving original textures and displays.
+- **`EnableColorModification`** (Default: `false`): Enables custom color tinting and multipliers on enemy-dropped items while preserving original textures and displays.
 - **`ColorMultiplierR`** (Default: `0.55`): Red multiplier applied to the material colors (0.0 to 2.0).
 - **`ColorMultiplierG`** (Default: `0.55`): Green multiplier applied to the material colors (0.0 to 2.0).
 - **`ColorMultiplierB`** (Default: `0.55`): Blue multiplier applied to the material colors (0.0 to 2.0).

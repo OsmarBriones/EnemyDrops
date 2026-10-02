@@ -42,7 +42,7 @@ internal static class ConfigurationController
 	/// <summary>
 	/// Exposes whether items dropped by enemies have their materials modified with a color multiplier and additive offset.
 	/// </summary>
-	internal static bool EnableColorModification => enableColorModificationEntry?.Value ?? true;
+	internal static bool EnableColorModification => enableColorModificationEntry?.Value ?? false;
 
 	/// <summary>
 	/// Exposes the red channel multiplier applied to the material color of enemy drops.
@@ -117,7 +117,7 @@ internal static class ConfigurationController
 		enableColorModificationEntry = configFile.Bind(
 			"Visuals",
 			nameof(EnableColorModification),
-			true,
+			false,
 			new ConfigDescription("Whether items dropped by enemies have their materials modified with a color multiplier and additive offset."));
 
 		colorMultiplierREntry = configFile.Bind(

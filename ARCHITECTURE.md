@@ -157,7 +157,7 @@ Entry points:
     - `PreserveItemsBetweenLevels` (bool, default: false): Enables keeping secured enemy drops across levels.
     - `MaxPreservedItems` (int, default: 10, range: 0..100): Maximum simultaneous enemy-dropped items preserved across levels.
   - `Visuals`:
-    - `EnableColorModification` (bool, default: true): Applies material color tinting/multiplier to dropped items while preserving original textures.
+    - `EnableColorModification` (bool, default: false): Applies material color tinting/multiplier to dropped items while preserving original textures.
     - `ColorMultiplierR` (float, default: 0.55, range: 0.0..2.0): Red channel multiplier for material colors.
     - `ColorMultiplierG` (float, default: 0.55, range: 0.0..2.0): Green channel multiplier for material colors.
     - `ColorMultiplierB` (float, default: 0.55, range: 0.0..2.0): Blue channel multiplier for material colors.

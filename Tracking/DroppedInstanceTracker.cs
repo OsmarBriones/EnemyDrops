@@ -1,6 +1,7 @@
 #nullable enable
 using EnemyDrops.Configuration;
 using EnemyDrops.Visuals;
+using RepoAPI.Items;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -47,46 +48,7 @@ internal static class DroppedInstanceTracker
 	/// </summary>
 	internal static bool IsItemSecured(ItemAttributes itemAttr)
 	{
-		if (!itemAttr) return false;
-
-		// 1. In truck room volume
-		var roomCheck = itemAttr.GetComponent<RoomVolumeCheck>();
-		if (roomCheck != null && roomCheck.inTruck) return true;
-
-		// 2. Equipped or held by a player
-		var equippable = itemAttr.GetComponent<ItemEquippable>();
-		if (equippable != null && (equippable.IsEquipped() || equippable.isEquipped)) return true;
-
-		var grab = itemAttr.GetComponent<PhysGrabObject>();
-		if (grab != null && (grab.grabbed || grab.grabbedLocal || (grab.playerGrabbing != null && grab.playerGrabbing.Count > 0)))
-		{
-			return true;
-		}
-
-		// 3. Registered in player inventory spots (StatsManager)
-		if (!string.IsNullOrEmpty(itemAttr.instanceName))
-		{
-			int hash = itemAttr.instanceName.GetHashCode();
-			var stats = StatsManager.instance;
-			if (stats != null)
-			{
-				if (stats.playerInventorySpot1.ContainsValue(hash) ||
-					stats.playerInventorySpot2.ContainsValue(hash) ||
-					stats.playerInventorySpot3.ContainsValue(hash))
-				{
-					return true;
-				}
-			}
-		}
-
-		// 4. Proximity to truck spawn point (safety fallback if colliders slightly miss boundary)
-		if (TruckSafetySpawnPoint.instance != null)
-		{
-			float dist = Vector3.Distance(itemAttr.transform.position, TruckSafetySpawnPoint.instance.transform.position);
-			if (dist <= 8f) return true;
-		}
-
-		return false;
+		return ItemPreservation.IsItemSecured(itemAttr);
 	}
 
 	/// <summary>
@@ -147,14 +109,8 @@ internal static class DroppedInstanceTracker
 						continue;
 					}
 
-					if (!string.IsNullOrEmpty(baseItemName) && stats.itemDictionary.ContainsKey(baseItemName))
+					if (ItemPreservation.TryPreserveSecuredItem(itemAttr, out baseItemName))
 					{
-						int currentPurchased = stats.itemsPurchased.TryGetValue(baseItemName, out int cp) ? cp : 0;
-						stats.itemsPurchased[baseItemName] = currentPurchased + 1;
-
-						int currentTotal = stats.itemsPurchasedTotal.TryGetValue(baseItemName, out int ct) ? ct : 0;
-						stats.itemsPurchasedTotal[baseItemName] = currentTotal + 1;
-
 						PreservedItemTracker.RecordPreservedItem(baseItemName);
 						currentPreserved++;
 
@@ -184,16 +140,7 @@ internal static class DroppedInstanceTracker
 				continue;
 			}
 
-			if (stats.item.ContainsKey(instanceName))
-			{
-				stats.item.Remove(instanceName);
-			}
-
-			if (stats.itemStatBattery.ContainsKey(instanceName))
-			{
-				stats.itemStatBattery.Remove(instanceName);
-			}
-
+			ItemPreservation.CleanupUnpreservedInstance(instanceName);
 			removed.Add(instanceName);
 		}
 

@@ -12,7 +12,7 @@ public class EnemyDropsPlugin : BaseUnityPlugin
 {
 	public const string PluginGuid = "osmarbriones.EnemyDrops";
 	public const string PluginName = "EnemyDrops";
-	public const string PluginVersion = "2.1.0";
+	public const string PluginVersion = "2.1.1";
 
 	internal static EnemyDropsPlugin Instance { get; private set; } = null!;
 	internal static new ManualLogSource Logger { get; private set; } = null!;
