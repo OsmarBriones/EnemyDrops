@@ -40,6 +40,7 @@ internal static class ItemKeys
 		public const string GunShotgun = "Item Gun Shotgun";
 		public const string GunStun = "Item Gun Stun";
 		public const string GunTranq = "Item Gun Tranq";
+		public const string GunRevolver = "Item Gun Revolver"; // Human Gun (Sunstone update)
 
 		// Health packs
 		public const string HealthPackLarge = "Item Health Pack Large";
@@ -53,6 +54,7 @@ internal static class ItemKeys
 		public const string MeleeSledgeHammer = "Item Melee Sledge Hammer";
 		public const string MeleeStunBaton = "Item Melee Stun Baton";
 		public const string MeleeSword = "Item Melee Sword";
+		public const string MeleeWhip = "Item Melee Whip"; // Human Adventure Cable (Sunstone update)
 
 		// Staffs
 		public const string StaffTorque = "Item Staff Torque";
@@ -65,6 +67,7 @@ internal static class ItemKeys
 		public const string MineStun = "Item Mine Stun";
 
 		// Other functional items
+		public const string OrbBattery = "Item Orb Battery"; // Recharge Orb (Sunstone update)
 		public const string OrbZeroGravity = "Item Orb Zero Gravity";
 		public const string PhaseBridge = "Item Phase Bridge";
 		public const string PowerCrystal = "Item Power Crystal";
@@ -100,12 +103,12 @@ internal static class ItemKeys
 			DroneBattery, DroneFeather, DroneIndestructible, DroneTorque, DroneZeroGravity,
 			DuckBucket, ExtractionTracker,
 			GrenadeDuctTaped, GrenadeExplosive, GrenadeHuman, GrenadeShockwave, GrenadeStun,
-			GunHandgun, GunLaser, GunShockwave, GunShotgun, GunStun, GunTranq,
+			GunHandgun, GunLaser, GunShockwave, GunShotgun, GunStun, GunTranq, GunRevolver,
 			HealthPackLarge, HealthPackMedium, HealthPackSmall,
-			MeleeBaseballBat, MeleeFryingPan, MeleeInflatableHammer, MeleeSledgeHammer, MeleeStunBaton, MeleeSword,
+			MeleeBaseballBat, MeleeFryingPan, MeleeInflatableHammer, MeleeSledgeHammer, MeleeStunBaton, MeleeSword, MeleeWhip,
 			StaffTorque, StaffVoid, StaffZeroGravity,
 			MineExplosive, MineShockwave, MineStun,
-			OrbZeroGravity, PhaseBridge, PowerCrystal, RubberDuck,
+			OrbBattery, OrbZeroGravity, PhaseBridge, PowerCrystal, RubberDuck,
 			ReviveItem, LeafBlower, WalkieTalkieBox,
 			UpgradeDeathHeadBattery, UpgradeMapPlayerCount, UpgradePlayerCrouchRest, UpgradePlayerEnergy, UpgradePlayerExtraJump,
 			UpgradePlayerGrabRange, UpgradePlayerGrabStrength, UpgradePlayerHealth, UpgradePlayerSprintSpeed,

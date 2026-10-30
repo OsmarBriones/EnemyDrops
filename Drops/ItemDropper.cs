@@ -24,6 +24,8 @@ internal static class ItemDropper
 		"Banger"
 	};
 
+	private static readonly HashSet<string> reportedUnavailableKeys = new();
+
 	private static FieldInfo? enemyParentField;
 	private static FieldInfo? enemyNameField;
 
@@ -82,7 +84,7 @@ internal static class ItemDropper
 			_ => ItemDropTables.GetWeightsFor(EnemyParent.Difficulty.Difficulty1),
 		};
 
-		bool success = ItemProvider.TrySpawnWeightedItem(table, pos, rot, out spawned, 0f);
+		bool success = ItemProvider.TrySpawnWeightedItem(FilterAvailable(table), pos, rot, out spawned, 0f);
 		if (success)
 		{
 			DroppedInstanceTracker.MarkDropped(spawned!);
@@ -95,6 +97,33 @@ internal static class ItemDropper
 		}
 
 		return success;
+	}
+
+	/// <summary>
+	/// Drops entries the running game does not know (or has disabled), so a renamed or removed item
+	/// never wastes a drop. Each unknown key is reported once.
+	/// </summary>
+	private static IReadOnlyList<WeightedKey> FilterAvailable(IReadOnlyList<WeightedKey> table)
+	{
+		var items = StatsManager.instance?.itemDictionary;
+		if (items == null) return table;
+
+		var available = new List<WeightedKey>(table.Count);
+		for (int i = 0; i < table.Count; i++)
+		{
+			var entry = table[i];
+			if (entry.Weight <= 0f) continue;
+
+			if (items.TryGetValue(entry.Key, out var item) && item != null && !item.disabled)
+			{
+				available.Add(entry);
+			}
+			else if (reportedUnavailableKeys.Add(entry.Key))
+			{
+				EnemyDropsPlugin.Logger.LogWarning($"ItemDropper: '{entry.Key}' is not available in this game version; it will be skipped.");
+			}
+		}
+		return available;
 	}
 
 	private static bool IsExcludedEnemy(string enemyName)

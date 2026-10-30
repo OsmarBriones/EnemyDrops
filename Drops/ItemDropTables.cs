@@ -13,13 +13,18 @@ namespace EnemyDrops.Drops;
 /// </summary>
 internal static class ItemDropTables
 {
+	// Placement follows the shop price (see RepoKit/references/item-prices.md):
+	//   Easy   (Difficulty1): up to ~$12K, plus the small health pack.
+	//   Medium (Difficulty2): $14K-$20K. Weight 2 at $14K-$18K, 1 at $18K-$20K.
+	//   Hard   (Difficulty3): $22K and up. Weight 2 at $22K-$30K, 1 at $38K-$48K.
+	// Player upgrades are the exception: they stay in the tier chosen for their power, not their price.
 	private static readonly IReadOnlyList<WeightedKey> commonItems = new[]
 	{
 		new WeightedKey(ItemKeys.GrenadeStun,        3f),
 		new WeightedKey(ItemKeys.GrenadeShockwave,   3f),
 		new WeightedKey(ItemKeys.GrenadeExplosive,   2f),
-		new WeightedKey(ItemKeys.GrenadeDuctTaped,   2f),
-		new WeightedKey(ItemKeys.GrenadeHuman,       2f),
+		new WeightedKey(ItemKeys.GrenadeDuctTaped,   3f),
+		new WeightedKey(ItemKeys.GrenadeHuman,       3f),
 		new WeightedKey(ItemKeys.MineStun,           3f),
 		new WeightedKey(ItemKeys.MineExplosive,      2f),
 		new WeightedKey(ItemKeys.MineShockwave,      3f),
@@ -28,8 +33,6 @@ internal static class ItemDropTables
 
 		new WeightedKey(ItemKeys.DroneTorque,        1f),
 		new WeightedKey(ItemKeys.DuckBucket,         1f),
-		new WeightedKey(ItemKeys.RubberDuck,         1f),
-		new WeightedKey(ItemKeys.MeleeFryingPan,     1f),
 		new WeightedKey(ItemKeys.MeleeInflatableHammer, 1f),
 
 		new WeightedKey(ItemKeys.ValuableTracker,    1f),
@@ -42,51 +45,54 @@ internal static class ItemDropTables
 	{
 		new WeightedKey(ItemKeys.HealthPackMedium,   3f),
 
-		new WeightedKey(ItemKeys.MeleeStunBaton,     2f),
-		new WeightedKey(ItemKeys.MeleeSword,         1f),
+		// $14K-$18K
+		new WeightedKey(ItemKeys.GunTranq,           2f),
+		new WeightedKey(ItemKeys.GunStun,            2f),
+		new WeightedKey(ItemKeys.GunShockwave,       2f),
+		new WeightedKey(ItemKeys.MeleeFryingPan,     2f),
+		new WeightedKey(ItemKeys.RubberDuck,         2f),
+		new WeightedKey(ItemKeys.CartSmall,          2f),
+		new WeightedKey(ItemKeys.StaffZeroGravity,   2f),
+		new WeightedKey(ItemKeys.DroneFeather,       2f),
+		new WeightedKey(ItemKeys.DroneBattery,       2f),
 
-		new WeightedKey(ItemKeys.CartSmall,          1f),
-
+		// $18K-$20K
 		new WeightedKey(ItemKeys.GunHandgun,         1f),
-		new WeightedKey(ItemKeys.GunTranq,           1f),
-		new WeightedKey(ItemKeys.GunStun,            1f),
-		new WeightedKey(ItemKeys.GunShockwave,       1f),
+		new WeightedKey(ItemKeys.MeleeSword,         1f),
+		new WeightedKey(ItemKeys.MeleeWhip,          1f),
+		new WeightedKey(ItemKeys.PhaseBridge,        1f),
+		new WeightedKey(ItemKeys.VehicleSemiscooterSmall, 1f),
 
 		new WeightedKey(ItemKeys.UpgradePlayerTumbleClimb, 1f),
 		new WeightedKey(ItemKeys.UpgradeDeathHeadBattery,  1f),
-		new WeightedKey(ItemKeys.UpgradePlayerEnergy,      1f),
-
-		new WeightedKey(ItemKeys.PhaseBridge,        1f),
-
-		new WeightedKey(ItemKeys.VehicleSemiscooterSmall, 1f),
-
-		new WeightedKey(ItemKeys.StaffTorque,        1f),
-		new WeightedKey(ItemKeys.StaffVoid,          1f),
-		new WeightedKey(ItemKeys.StaffZeroGravity,   1f),
-
-		new WeightedKey(ItemKeys.WalkieTalkieBox,    1f)
+		new WeightedKey(ItemKeys.UpgradePlayerEnergy,      1f)
 	};
 
 	private static readonly IReadOnlyList<WeightedKey> rareItems = new[]
 	{
 		new WeightedKey(ItemKeys.HealthPackLarge,    3f),
 
-		new WeightedKey(ItemKeys.DroneFeather,       2f),
+		// $22K-$30K
 		new WeightedKey(ItemKeys.DroneIndestructible, 2f),
-		new WeightedKey(ItemKeys.DroneBattery,       1f),
-		new WeightedKey(ItemKeys.DroneZeroGravity,   1f),
+		new WeightedKey(ItemKeys.DroneZeroGravity,   2f),
+		new WeightedKey(ItemKeys.MeleeStunBaton,     2f),
+		new WeightedKey(ItemKeys.StaffTorque,        2f),
+		new WeightedKey(ItemKeys.StaffVoid,          2f),
+		new WeightedKey(ItemKeys.WalkieTalkieBox,    2f),
+		new WeightedKey(ItemKeys.GunRevolver,        2f),
+		new WeightedKey(ItemKeys.OrbBattery,         2f),
 
+		// $38K-$48K
 		new WeightedKey(ItemKeys.CartMedium,         1f),
 		new WeightedKey(ItemKeys.CartCannon,         1f),
 		new WeightedKey(ItemKeys.CartLaser,          1f),
-
 		new WeightedKey(ItemKeys.OrbZeroGravity,     1f),
-
 		new WeightedKey(ItemKeys.GunShotgun,         1f),
 		new WeightedKey(ItemKeys.GunLaser,           1f),
-
 		new WeightedKey(ItemKeys.MeleeSledgeHammer,  1f),
 		new WeightedKey(ItemKeys.MeleeBaseballBat,   1f),
+		new WeightedKey(ItemKeys.VehicleSemiscooter, 1f),
+		new WeightedKey(ItemKeys.ReviveItem,         1f),
 
 		new WeightedKey(ItemKeys.PowerCrystal,       0f),
 
@@ -98,10 +104,7 @@ internal static class ItemDropTables
 		new WeightedKey(ItemKeys.UpgradePlayerTumbleLaunch, 1f),
 		new WeightedKey(ItemKeys.UpgradePlayerTumbleWings,  1f),
 		new WeightedKey(ItemKeys.UpgradePlayerCrouchRest,   1f),
-		new WeightedKey(ItemKeys.UpgradeMapPlayerCount,     0f),
-
-		new WeightedKey(ItemKeys.VehicleSemiscooter, 1f),
-		new WeightedKey(ItemKeys.ReviveItem,         1f)
+		new WeightedKey(ItemKeys.UpgradeMapPlayerCount,     0f)
 	};
 
 	private static DropTableConfigMatrix? configMatrix;
