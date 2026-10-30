@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Replaced the deprecated `Object.FindObjectsOfType` call with `FindObjectsByType` when collecting dropped items on scene switch (Unity 6 / Sunstone update).
+
+### Fixed
+- Fixed Unity errors ("doesn't have a color property '_Color'") when tinting dropped items whose shaders lack `_Color`; color modification now only touches `_Color`/`_BaseColor` when the material has them.
+- Removed a stale `Assembly-CSharp` project reference from `EnemyDrops.sln` so `dotnet build` works on the solution.
+
 ## [2.1.1] - 2026-10-02
 
 ### Changed

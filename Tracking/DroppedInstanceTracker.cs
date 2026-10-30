@@ -85,7 +85,7 @@ internal static class DroppedInstanceTracker
 		int maxPreserved = ConfigurationController.MaxPreservedItems;
 		int currentPreserved = PreservedItemTracker.GetTotalPreservedCount();
 
-		var droppedTags = Object.FindObjectsOfType<DroppedItemTag>();
+		var droppedTags = Object.FindObjectsByType<DroppedItemTag>(FindObjectsSortMode.None);
 		var preservedInstances = new HashSet<string>();
 
 		if (preserveEnabled && droppedTags != null)

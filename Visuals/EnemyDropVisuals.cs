@@ -86,19 +86,24 @@ internal sealed class EnemyDropVisuals : MonoBehaviour
 				if (!mat) continue;
 
 				// Read original color (preserving textures so labels, screens, and patterns stay intact)
-				Color originalColor = mat.HasProperty("_Color") ? mat.GetColor("_Color") : mat.color;
+				// Material.color throws a Unity error when the shader has no "_Color", so only touch properties that exist.
+				bool hasColor = mat.HasProperty("_Color");
+				bool hasBaseColor = mat.HasProperty("_BaseColor");
 
-				Color newColor = new(
-					Mathf.Clamp01((originalColor.r * multR) + add),
-					Mathf.Clamp01((originalColor.g * multG) + add),
-					Mathf.Clamp01((originalColor.b * multB) + add),
-					originalColor.a
-				);
+				if (hasColor || hasBaseColor)
+				{
+					Color originalColor = hasColor ? mat.GetColor("_Color") : mat.GetColor("_BaseColor");
 
-				mat.color = newColor;
+					Color newColor = new(
+						Mathf.Clamp01((originalColor.r * multR) + add),
+						Mathf.Clamp01((originalColor.g * multG) + add),
+						Mathf.Clamp01((originalColor.b * multB) + add),
+						originalColor.a
+					);
 
-				if (mat.HasProperty("_Color")) mat.SetColor("_Color", newColor);
-				if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", newColor);
+					if (hasColor) mat.SetColor("_Color", newColor);
+					if (hasBaseColor) mat.SetColor("_BaseColor", newColor);
+				}
 
 				// Scale emission color proportionally if present
 				if (mat.HasProperty("_EmissionColor"))
