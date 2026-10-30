@@ -1,5 +1,6 @@
 #nullable enable
 using EnemyDrops.Configuration;
+using EnemyDrops.Networking;
 using EnemyDrops.Reflection;
 using EnemyDrops.Tracking;
 using RepoAPI.Items;
@@ -85,6 +86,7 @@ internal static class ItemDropper
 		if (success)
 		{
 			DroppedInstanceTracker.MarkDropped(spawned!);
+			DropVisualsSync.Broadcast(spawned!);
 			dropsThisLevel++;
 		}
 		else

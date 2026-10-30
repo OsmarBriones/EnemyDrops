@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Clients that have the mod installed now see the drop visuals (tint and reddish aura) on enemy drops. The host sends a lightweight Photon event (code 142) with the item's view id; clients without the mod ignore it and see the vanilla item, so the mod remains host-only for gameplay.
+
 ### Changed
+- Drop table weights are now read live from the config entries on every drop, so changes made in-game (e.g. with REPOConfig) apply immediately instead of waiting for the next level.
 - Replaced the deprecated `Object.FindObjectsOfType` call with `FindObjectsByType` when collecting dropped items on scene switch (Unity 6 / Sunstone update).
 
 ### Fixed

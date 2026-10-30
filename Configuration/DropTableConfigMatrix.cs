@@ -17,10 +17,6 @@ internal sealed class DropTableConfigMatrix
 	private readonly Dictionary<string, ConfigEntry<int>> entriesDifficulty2 = new(StringComparer.OrdinalIgnoreCase);
 	private readonly Dictionary<string, ConfigEntry<int>> entriesDifficulty3 = new(StringComparer.OrdinalIgnoreCase);
 
-	private readonly IReadOnlyList<WeightedKey> weightsDifficulty1;
-	private readonly IReadOnlyList<WeightedKey> weightsDifficulty2;
-	private readonly IReadOnlyList<WeightedKey> weightsDifficulty3;
-
 	public DropTableConfigMatrix(
 		ConfigFile config,
 		IReadOnlyList<WeightedKey> defaultsDifficulty1,
@@ -65,20 +61,16 @@ internal sealed class DropTableConfigMatrix
 				d3,
 				new ConfigDescription($"Weight for \"{key}\" on hard monsters. (range {DropWeightMin}..{DropWeightMax})", range));
 		}
-
-		// Read once (runtime reload handled by re-creating this matrix)
-		weightsDifficulty1 = BuildWeights(entriesDifficulty1);
-		weightsDifficulty2 = BuildWeights(entriesDifficulty2);
-		weightsDifficulty3 = BuildWeights(entriesDifficulty3);
 	}
 
+	// Weights are read from the config entries on every call so in-game edits (e.g. REPOConfig) apply to the next drop.
 	public IReadOnlyList<WeightedKey> Get(EnemyParent.Difficulty difficulty)
 	{
 		return difficulty switch
 		{
-			EnemyParent.Difficulty.Difficulty1 => weightsDifficulty1,
-			EnemyParent.Difficulty.Difficulty2 => weightsDifficulty2,
-			_ => weightsDifficulty3,
+			EnemyParent.Difficulty.Difficulty1 => BuildWeights(entriesDifficulty1),
+			EnemyParent.Difficulty.Difficulty2 => BuildWeights(entriesDifficulty2),
+			_ => BuildWeights(entriesDifficulty3),
 		};
 	}
 

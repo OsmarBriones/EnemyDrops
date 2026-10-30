@@ -2,6 +2,7 @@
 using BepInEx;
 using BepInEx.Logging;
 using EnemyDrops.Configuration;
+using EnemyDrops.Networking;
 using HarmonyLib;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ public class EnemyDropsPlugin : BaseUnityPlugin
 		ConfigurationController.Initialize(Config, Logger);
 
 		Patch();
+		DropVisualsSync.Register();
 
 		Logger.LogInfo($"{PluginName} v{PluginVersion} loaded!");
 	}

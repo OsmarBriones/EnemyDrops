@@ -18,6 +18,8 @@ EnemyDrops adds extra loot to the game by:
 
 Only the **host** runs drop selection and persistence logic; clients receive synchronized items through Photon and vanilla game network events.
 
+**Client-side visuals (`Networking/DropVisualsSync.cs`)**: `EnemyDropVisuals` (tint and aura) is a local component, so vanilla-synced items do not carry it. After spawning a drop, the host raises a Photon event (code 142, receivers: others, reliable) containing the item's `PhotonView.ViewID`. Clients with the mod register `PhotonNetwork.NetworkingClient.EventReceived`, wait up to 5 seconds for the view to be instantiated and add `EnemyDropVisuals` to it. Clients without the mod ignore the unknown event code. Items dropped before a client joined do not get the visuals.
+
 ---
 
 ## Project Structure

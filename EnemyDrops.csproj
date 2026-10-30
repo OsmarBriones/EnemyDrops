@@ -64,6 +64,14 @@
       <HintPath>$(RepoManaged)\PhotonUnityNetworking.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="PhotonRealtime">
+      <HintPath>$(RepoManaged)\PhotonRealtime.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Photon3Unity3D">
+      <HintPath>$(RepoManaged)\Photon3Unity3D.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>$(RepoManaged)\UnityEngine.dll</HintPath>
       <Private>false</Private>

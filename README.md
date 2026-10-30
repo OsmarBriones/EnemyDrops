@@ -1,6 +1,15 @@
 # Enemy Drops
 Make monsters drop items when they die — fully configurable and host-only.  
-Only Host, clients don't need it. Native **BepInEx** mod.
+Native **BepInEx** mod.
+
+> ### 👥 Multiplayer: Only Host Needed (Clients Optional)
+> **Your friends do NOT need to install this mod to join and play!**
+>
+> * **For Clients WITHOUT the mod (Vanilla):**
+>   * ✅ 100% full gameplay (enemy drops, item pickup, and item preservation between levels).
+>   * ℹ️ Dropped items look like regular items, without the dark tint or reddish glow.
+> * **For Clients WITH the mod (Enhanced):**
+>   * ✅ Full gameplay + the **dark tint and pulsating reddish glow** on enemy drops.
 
 Inspired by the original **REPO Enemy Drops** mod by ImVertro.  
 This version is a fully native BepInEx implementation for users who prefer not to use MelonLoader, with additional usability improvements.
@@ -20,7 +29,7 @@ This version is a fully native BepInEx implementation for users who prefer not t
 - **Centered Light Aura**: A soft, pulsating reddish point light aura centered directly inside enemy-dropped items that automatically dims or switches off when held or equipped (enabled by default).
 - **Item Preservation**: Option to keep items secured in the truck or inventory across subsequent levels.
 - **Preservation Limit**: Configurable cap on the maximum number of enemy-dropped items that can be preserved simultaneously (default: 10).
-- Only the host needs to have the mod installed — clients do not.
+- Only the host needs to have the mod installed. Clients with the mod also see the tint and glow on drops.
 - 100% native **BepInEx** implementation.
 
 ## Requirements
