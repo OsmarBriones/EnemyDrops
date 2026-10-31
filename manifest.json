@@ -1,6 +1,6 @@
 {
     "name":  "EnemyDrops",
-    "version_number":  "2.2.0",
+    "version_number":  "2.2.1",
     "website_url":  "https://github.com/OsmarBriones/EnemyDrops",
     "description":  "Monsters drop items when they die. Fully configurable. Only the host needs it; clients with the mod also see the glow on drops. Native BepInEx.",
     "dependencies":  [
