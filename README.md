@@ -21,6 +21,10 @@ This version is a fully native BepInEx implementation for users who prefer not t
 - **New switches:** `Enabled`, `ResetWeightsToDefault` and `ZeroAllWeights`.
 - **Glow for clients with the mod:** players who also have the mod see the glow on drops.
 
+## Preview
+
+![Gameplay Preview](https://raw.githubusercontent.com/OsmarBriones/EnemyDrops/master/assets/preview.gif)
+
 ## Features
 - Monsters drop items upon death based on their danger level.
 - Configure drop chances and weights for every item per monster difficulty tier.

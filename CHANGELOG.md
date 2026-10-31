@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Gameplay preview GIF in the README (`assets/preview.gif`).
+
 ### Changed
 - New mod thumbnail: a horse piñata hit by a colorful piñata bat, painted in the Sunstone update art style, with the "Ready for the Sunstone Update (v0.5.0)" banner.
 
