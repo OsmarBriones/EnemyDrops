@@ -14,6 +14,13 @@ Native **BepInEx** mod.
 Inspired by the original **REPO Enemy Drops** mod by ImVertro.  
 This version is a fully native BepInEx implementation for users who prefer not to use MelonLoader, with additional usability improvements.
 
+## What's new in v2.2
+- **New items:** Human Gun, Human Adventure Cable and Recharge Orb from the Sunstone update can now drop.
+- **Balanced by shop price:** cheap items drop from easy monsters, expensive ones from hard monsters.
+- **Live weights:** drop weights changed in-game apply to the very next drop.
+- **New switches:** `Enabled`, `ResetWeightsToDefault` and `ZeroAllWeights`.
+- **Glow for clients with the mod:** players who also have the mod see the glow on drops.
+
 ## What's new in v2.0
 - **Keep Enemy Drops Between Levels:** You can now bring dropped items into the truck or keep them in your inventory to preserve them across levels and save them with your run!
 - **Configurable Preservation Cap:** New `MaxPreservedItems` setting (default: 10) to balance your run progression.
@@ -40,11 +47,19 @@ This version is a fully native BepInEx implementation for users who prefer not t
 2. Place `EnemyDrops.dll` into your `BepInEx/plugins` folder.
 3. Launch the game once — the configuration file will be generated automatically inside `BepInEx/config`.
 
+## How to Use
+1. Install the mod on the host (friends do not need it).
+2. Play. Monsters drop items when they die; stronger monsters drop pricier items.
+3. Tune the weights in the in-game config menu or in `osmarbriones.EnemyDrops.cfg`. Items are listed by their game names (e.g. `Item Gun Revolver` is the Human Gun).
+
 ## Configuration
 All settings are controlled through the generated file: `osmarbriones.EnemyDrops.cfg`
 located in `BepInEx/config`.
 
 ### General Settings
+- **`Enabled`** (Default: `true`): Turns the mod off entirely. When `false`, enemies drop nothing.
+- **`ResetWeightsToDefault`** (Default: `false`): Set to `true` (e.g. from the in-game config menu) to restore every drop weight, for all three monster tiers, to its default. The switch turns itself off afterwards.
+- **`ZeroAllWeights`** (Default: `false`): Set to `true` to set every drop weight to `0`, so you can then enable only the items you want. The switch turns itself off afterwards.
 - **`MaxDropsPerLevel`** (Default: `200`): Maximum number of items that can drop in a single level.
 - **`PreserveItemsBetweenLevels`** (Default: `false`): When enabled (`true`), enemy-dropped items that players carry to safety inside the truck or keep in their inventory will persist into future levels and be saved with your run.
 - **`MaxPreservedItems`** (Default: `10`): Maximum number of enemy-dropped items that can be preserved simultaneously. Standard shop-purchased items do not count toward this limit.
@@ -56,16 +71,6 @@ When `PreserveItemsBetweenLevels` is enabled (`true`), you can save enemy drops 
 - **Shop items are exempt:** Items purchased from the shop do not count toward this limit.
 - **Dynamic slot recycling:** When you consume (e.g. syringe, medkit) or lose a preserved item, its slot is freed up automatically so new enemy drops can take its place.
 - **Host-authoritative:** Only the host needs this enabled. Items secured by any player (host or connected clients) are properly evaluated and saved.
-
-### Visual Settings
-- **`EnableColorModification`** (Default: `false`): Enables custom color tinting and multipliers on enemy-dropped items while preserving original textures and displays.
-- **`ColorMultiplierR`** (Default: `0.55`): Red multiplier applied to the material colors (0.0 to 2.0).
-- **`ColorMultiplierG`** (Default: `0.55`): Green multiplier applied to the material colors (0.0 to 2.0).
-- **`ColorMultiplierB`** (Default: `0.55`): Blue multiplier applied to the material colors (0.0 to 2.0).
-- **`ColorAdd`** (Default: `0.05`): Additive offset applied to the material colors (-1.0 to 1.0).
-- **`EnableDropAura`** (Default: `true`): Enables a soft, pulsating reddish light aura centered inside dropped items.
-- **`AuraIntensity`** (Default: `0.8`): Controls the brightness and intensity of the reddish drop aura.
-- **`AuraRange`** (Default: `3.5`): Controls how far the light aura reaches in meters.
 
 ### Difficulty-Based Drop Tables
 The `.cfg` file includes three difficulty sections:
@@ -90,6 +95,16 @@ Item Gun Shotgun = 2
 - A value of **0** means the item **will not drop** for that monster difficulty.
 - Higher numbers increase the **probability** of the item being selected when a monster dies.
 - You have full control over which items appear for each difficulty tier.
+
+### Visual Settings
+- **`EnableColorModification`** (Default: `false`): Enables custom color tinting and multipliers on enemy-dropped items while preserving original textures and displays.
+- **`ColorMultiplierR`** (Default: `0.55`): Red multiplier applied to the material colors (0.0 to 2.0).
+- **`ColorMultiplierG`** (Default: `0.55`): Green multiplier applied to the material colors (0.0 to 2.0).
+- **`ColorMultiplierB`** (Default: `0.55`): Blue multiplier applied to the material colors (0.0 to 2.0).
+- **`ColorAdd`** (Default: `0.05`): Additive offset applied to the material colors (-1.0 to 1.0).
+- **`EnableDropAura`** (Default: `true`): Enables a soft, pulsating reddish light aura centered inside dropped items.
+- **`AuraIntensity`** (Default: `0.8`): Controls the brightness and intensity of the reddish drop aura.
+- **`AuraRange`** (Default: `3.5`): Controls how far the light aura reaches in meters.
 
 ## Issues & Bug Reports
 Please report any bugs or suggest features on GitHub:  
