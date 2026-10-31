@@ -122,6 +122,16 @@ internal static class ItemDropTables
 	}
 
 	/// <summary>
+	/// Restores all configured drop table weights to their default values.
+	/// </summary>
+	internal static void ResetWeightsToDefault() => configMatrix?.ResetToDefaults();
+
+	/// <summary>
+	/// Sets all configured drop table weights to 0.
+	/// </summary>
+	internal static void ZeroAllWeights() => configMatrix?.ZeroAll();
+
+	/// <summary>
 	/// Retrieves the weighted key list configured for the given enemy difficulty.
 	/// </summary>
 	internal static IReadOnlyList<WeightedKey> GetWeightsFor(EnemyParent.Difficulty difficulty)

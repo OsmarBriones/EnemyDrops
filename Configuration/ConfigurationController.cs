@@ -12,6 +12,9 @@ namespace EnemyDrops.Configuration;
 internal static class ConfigurationController
 {
 	private static ConfigFile? configFile;
+	private static ConfigEntry<bool>? enabledEntry;
+	private static ConfigEntry<bool>? resetWeightsToDefaultEntry;
+	private static ConfigEntry<bool>? zeroAllWeightsEntry;
 	private static ConfigEntry<int>? maxDropsPerLevelEntry;
 	private static ConfigEntry<bool>? preserveItemsBetweenLevelsEntry;
 	private static ConfigEntry<int>? maxPreservedItemsEntry;
@@ -23,6 +26,11 @@ internal static class ConfigurationController
 	private static ConfigEntry<bool>? enableDropAuraEntry;
 	private static ConfigEntry<float>? auraIntensityEntry;
 	private static ConfigEntry<float>? auraRangeEntry;
+
+	/// <summary>
+	/// Exposes whether the mod is active. When false, enemies drop nothing.
+	/// </summary>
+	internal static bool Enabled => enabledEntry?.Value ?? true;
 
 	/// <summary>
 	/// Exposes the configured max number of item drops per level (defaults to 200 if uninitialized).
@@ -79,6 +87,30 @@ internal static class ConfigurationController
 	/// </summary>
 	internal static float AuraRange => auraRangeEntry?.Value ?? 3.5f;
 
+	private static bool ResetWeightsToDefault => resetWeightsToDefaultEntry?.Value ?? false;
+
+	private static bool ZeroAllWeights => zeroAllWeightsEntry?.Value ?? false;
+
+	private static void OnZeroAllWeightsChanged(object sender, EventArgs e)
+	{
+		if (!ZeroAllWeights) return;
+
+		ItemDropTables.ZeroAllWeights();
+		zeroAllWeightsEntry!.Value = false;
+		configFile?.Save();
+		EnemyDropsPlugin.Logger.LogInfo("EnemyDrops: All drop table weights were set to 0.");
+	}
+
+	private static void OnResetWeightsToDefaultChanged(object sender, EventArgs e)
+	{
+		if (!ResetWeightsToDefault) return;
+
+		ItemDropTables.ResetWeightsToDefault();
+		resetWeightsToDefaultEntry!.Value = false;
+		configFile?.Save();
+		EnemyDropsPlugin.Logger.LogInfo("EnemyDrops: All drop table weights were reset to their defaults.");
+	}
+
 	/// <summary>
 	/// Initializes configuration-backed drop tables and logs active weights.
 	/// </summary>
@@ -90,6 +122,12 @@ internal static class ConfigurationController
 		configFile = config;
 
 		// General plugin settings
+		enabledEntry = configFile.Bind(
+			"General",
+			nameof(Enabled),
+			true,
+			new ConfigDescription("Enable or disable the EnemyDrops mod entirely. When disabled, enemies drop nothing."));
+
 		maxDropsPerLevelEntry = configFile.Bind(
 			"General",
 			nameof(MaxDropsPerLevel),
@@ -113,7 +151,24 @@ internal static class ConfigurationController
 				"Maximum number of enemy-dropped items that can be preserved simultaneously across levels.",
 				new AcceptableValueRange<int>(0, 100)));
 
-		// Visual settings
+		resetWeightsToDefaultEntry = configFile.Bind(
+			"General",
+			nameof(ResetWeightsToDefault),
+			false,
+			new ConfigDescription("Set to true to restore every drop table weight (all three monster tiers) to its default value. The switch turns itself off afterwards."));
+		resetWeightsToDefaultEntry.SettingChanged += OnResetWeightsToDefaultChanged;
+
+		zeroAllWeightsEntry = configFile.Bind(
+			"General",
+			nameof(ZeroAllWeights),
+			false,
+			new ConfigDescription("Set to true to set every drop table weight (all three monster tiers) to 0, so you can enable only the items you want. The switch turns itself off afterwards."));
+		zeroAllWeightsEntry.SettingChanged += OnZeroAllWeightsChanged;
+
+		// Build or rebuild the runtime matrix from config entries
+		ItemDropTables.InitializeConfig(configFile);
+
+		// Visuals are bound last so they appear after the weight tables in the config file and in-game menus
 		enableColorModificationEntry = configFile.Bind(
 			"Visuals",
 			nameof(EnableColorModification),
@@ -174,15 +229,12 @@ internal static class ConfigurationController
 				"Range in meters of the reddish light aura emitted by enemy drops.",
 				new AcceptableValueRange<float>(0.5f, 10.0f)));
 
-		// Build or rebuild the runtime matrix from config entries
-		ItemDropTables.InitializeConfig(configFile);
-
 		// Persist any new defaults to disk (helps users discover the full set of keys)
 		configFile.Save();
 
 		// Log current weights
 		ItemDropTables.LogWeights(logger);
-		logger.LogInfo($"EnemyDrops: Configuration initialized. MaxDropsPerLevel={MaxDropsPerLevel}, PreserveItemsBetweenLevels={PreserveItemsBetweenLevels}, MaxPreservedItems={MaxPreservedItems}, EnableColorModification={EnableColorModification}, EnableDropAura={EnableDropAura}, AuraIntensity={AuraIntensity}, AuraRange={AuraRange}");
+		logger.LogInfo($"EnemyDrops: Configuration initialized. Enabled={Enabled}, MaxDropsPerLevel={MaxDropsPerLevel}, PreserveItemsBetweenLevels={PreserveItemsBetweenLevels}, MaxPreservedItems={MaxPreservedItems}, EnableColorModification={EnableColorModification}, EnableDropAura={EnableDropAura}, AuraIntensity={AuraIntensity}, AuraRange={AuraRange}");
 	}
 
 	/// <summary>
@@ -203,7 +255,7 @@ internal static class ConfigurationController
 			configFile.Save();
 
 			ItemDropTables.LogWeights(logger);
-			logger.LogInfo($"EnemyDrops: Configuration reloaded. MaxDropsPerLevel={MaxDropsPerLevel}, PreserveItemsBetweenLevels={PreserveItemsBetweenLevels}, MaxPreservedItems={MaxPreservedItems}, EnableColorModification={EnableColorModification}, EnableDropAura={EnableDropAura}, AuraIntensity={AuraIntensity}, AuraRange={AuraRange}");
+			logger.LogInfo($"EnemyDrops: Configuration reloaded. Enabled={Enabled}, MaxDropsPerLevel={MaxDropsPerLevel}, PreserveItemsBetweenLevels={PreserveItemsBetweenLevels}, MaxPreservedItems={MaxPreservedItems}, EnableColorModification={EnableColorModification}, EnableDropAura={EnableDropAura}, AuraIntensity={AuraIntensity}, AuraRange={AuraRange}");
 		}
 		catch (Exception ex)
 		{

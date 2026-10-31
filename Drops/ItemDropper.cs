@@ -45,6 +45,7 @@ internal static class ItemDropper
 	{
 		spawned = null;
 
+		if (!ConfigurationController.Enabled) return false;
 		if (!SemiFunc.IsMasterClientOrSingleplayer()) return false;
 		if (!enemy)
 		{

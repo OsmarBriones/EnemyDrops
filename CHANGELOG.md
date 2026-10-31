@@ -9,10 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - New items from the Sunstone update are now in the drop tables and config: Human Gun (`Item Gun Revolver`) and Recharge Orb (`Item Orb Battery`) on hard monsters, and Human Adventure Cable (`Item Melee Whip`) on medium monsters.
+- `Enabled` setting (General) to turn the mod off entirely; when disabled, enemies drop nothing.
+- `ResetWeightsToDefault` switch (General): set it to true to restore every drop table weight, for all three monster tiers, to its default. It turns itself off afterwards.
+- `ZeroAllWeights` switch (General): set it to true to set every drop table weight to 0, handy to enable only the items you want. It turns itself off afterwards.
 - Items that the running game does not have (or has disabled) are skipped when picking a drop, with a one-time warning in the log, so they never waste a drop.
 - Clients that have the mod installed now see the drop visuals (tint and reddish aura) on enemy drops. The host sends a lightweight Photon event (code 142) with the item's view id; clients without the mod ignore it and see the vanilla item, so the mod remains host-only for gameplay.
 
 ### Changed
+- The `Visuals` section now comes after the three weight tables in the config file and in-game config menus.
 - Default drop tables now follow the shop price of each item: Easy up to ~$12K, Medium $14K-$20K, Hard $22K and up (weight 2 for the cheaper half of each tier, 1 for the more expensive). Moved Rubber Duck and Frying Pan to Medium monsters; Feather Drone and Recharge Drone to Medium; Prodzap (stun baton), Roll Staff, Void Staff, Semibot Walkies Box and Human Gun to Hard. Player upgrades keep their previous placement. Existing config files keep their saved weights; delete the entries (or the `.cfg`) to pick up the new defaults.
 - Drop table weights are now read live from the config entries on every drop, so changes made in-game (e.g. with REPOConfig) apply immediately instead of waiting for the next level.
 - Replaced the deprecated `Object.FindObjectsOfType` call with `FindObjectsByType` when collecting dropped items on scene switch (Unity 6 / Sunstone update).

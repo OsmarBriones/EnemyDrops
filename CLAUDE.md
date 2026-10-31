@@ -124,10 +124,14 @@ All valid item key strings are defined as constants in `Drops/ItemKeys.cs`. Use 
 
 Generated at `BepInEx/config/osmarbriones.EnemyDrops.cfg`:
 - `General`:
+  - `Enabled` (bool, default: true): Master switch; when false no enemy drops anything.
+  - `ResetWeightsToDefault` (bool, default: false): Setting it to true restores all drop table weights to their defaults, then resets itself to false.
+  - `ZeroAllWeights` (bool, default: false): Setting it to true sets all drop table weights to 0, then resets itself to false.
   - `MaxDropsPerLevel` (int, default: 200, range: 0..1000): Maximum item drops per level.
   - `PreserveItemsBetweenLevels` (bool, default: false): Enables keeping secured enemy drops across levels.
   - `MaxPreservedItems` (int, default: 10, range: 0..100): Maximum simultaneous enemy-dropped items preserved across levels.
-- `Visuals`:
+- Per-difficulty weighted item tables (Difficulty 1, 2, 3).
+- `Visuals` (bound last so it appears after the tables):
   - `EnableColorModification` (bool, default: true): Applies material color tinting/multiplier to dropped items while preserving original textures.
   - `ColorMultiplierR` (float, default: 0.55, range: 0.0..2.0): Red channel multiplier for material colors.
   - `ColorMultiplierG` (float, default: 0.55, range: 0.0..2.0): Green channel multiplier for material colors.
@@ -136,5 +140,4 @@ Generated at `BepInEx/config/osmarbriones.EnemyDrops.cfg`:
   - `EnableDropAura` (bool, default: true): Enables centered reddish light aura on dropped items.
   - `AuraIntensity` (float, default: 0.8, range: 0.1..3.0): Brightness/intensity of the reddish drop aura.
   - `AuraRange` (float, default: 3.5, range: 0.5..10.0): Range in meters of the reddish drop aura.
-- Per-difficulty weighted item tables (Difficulty 1, 2, 3).
 Config is reloaded each level start, not just once at plugin load.

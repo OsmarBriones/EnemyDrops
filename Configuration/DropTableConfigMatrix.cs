@@ -74,6 +74,42 @@ internal sealed class DropTableConfigMatrix
 		};
 	}
 
+	/// <summary>
+	/// Restores every weight entry (all three tiers) to the default it was bound with.
+	/// </summary>
+	public void ResetToDefaults()
+	{
+		ResetTier(entriesDifficulty1);
+		ResetTier(entriesDifficulty2);
+		ResetTier(entriesDifficulty3);
+	}
+
+	/// <summary>
+	/// Sets every weight entry (all three tiers) to the minimum weight.
+	/// </summary>
+	public void ZeroAll()
+	{
+		ZeroTier(entriesDifficulty1);
+		ZeroTier(entriesDifficulty2);
+		ZeroTier(entriesDifficulty3);
+	}
+
+	private static void ZeroTier(Dictionary<string, ConfigEntry<int>> byKey)
+	{
+		foreach (var entry in byKey.Values)
+		{
+			entry.Value = DropWeightMin;
+		}
+	}
+
+	private static void ResetTier(Dictionary<string, ConfigEntry<int>> byKey)
+	{
+		foreach (var entry in byKey.Values)
+		{
+			entry.BoxedValue = entry.DefaultValue;
+		}
+	}
+
 	private static Dictionary<string, float> ToMap(IReadOnlyList<WeightedKey> list)
 	{
 		var map = new Dictionary<string, float>(StringComparer.OrdinalIgnoreCase);
