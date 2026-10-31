@@ -14,19 +14,12 @@ Native **BepInEx** mod.
 Inspired by the original **REPO Enemy Drops** mod by ImVertro.  
 This version is a fully native BepInEx implementation for users who prefer not to use MelonLoader, with additional usability improvements.
 
-## What's new in v2.2
+## What's new
 - **New items:** Human Gun, Human Adventure Cable and Recharge Orb from the Sunstone update can now drop.
 - **Balanced by shop price:** cheap items drop from easy monsters, expensive ones from hard monsters.
 - **Live weights:** drop weights changed in-game apply to the very next drop.
 - **New switches:** `Enabled`, `ResetWeightsToDefault` and `ZeroAllWeights`.
 - **Glow for clients with the mod:** players who also have the mod see the glow on drops.
-
-## What's new in v2.0
-- **Keep Enemy Drops Between Levels:** You can now bring dropped items into the truck or keep them in your inventory to preserve them across levels and save them with your run!
-- **Configurable Preservation Cap:** New `MaxPreservedItems` setting (default: 10) to balance your run progression.
-- **Dynamic Slot Recycling:** Consuming or destroying a preserved item frees up space for new enemy drops.
-- **Informative Telemetry:** Clear console logs alert you when an item is secured or when the capacity limit is reached.
-- **Engine Modernization:** Complete rewrite powered by `RepoAPI` for flawless host-only replication and performance.
 
 ## Features
 - Monsters drop items upon death based on their danger level.
